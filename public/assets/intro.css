@@ -1,0 +1,238 @@
+html.intro-active,
+html.intro-active body {
+  overflow: hidden;
+}
+
+.intro-screen {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  pointer-events: none;
+  background:
+    radial-gradient(circle at 50% 46%, rgba(145, 170, 255, .2), transparent 34%),
+    linear-gradient(180deg, #09090b 0%, #030304 100%);
+  transform-origin: 50% 50%;
+}
+
+html:not(.intro-active) .intro-screen,
+html.intro-reduced .intro-screen {
+  display: none;
+}
+
+.intro-screen::before,
+.intro-screen::after,
+.intro-vignette {
+  position: absolute;
+  inset: 0;
+  content: "";
+  pointer-events: none;
+}
+
+.intro-screen::before {
+  opacity: .28;
+  background-image:
+    linear-gradient(rgba(255,255,255,.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.08) 1px, transparent 1px);
+  background-size: clamp(80px, 8vw, 150px) clamp(80px, 8vw, 150px);
+  mask-image: radial-gradient(circle at 50% 50%, black, transparent 70%);
+  -webkit-mask-image: radial-gradient(circle at 50% 50%, black, transparent 70%);
+  animation: intro-grid 2.5s cubic-bezier(.16, 1, .3, 1) forwards;
+}
+
+.intro-screen::after {
+  left: -35%;
+  width: 46%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,.2), transparent);
+  filter: blur(18px);
+  transform: skewX(-14deg) translateX(-25%);
+  animation: intro-sheen 1.5s cubic-bezier(.2, .8, .2, 1) .45s forwards;
+}
+
+.intro-vignette {
+  background:
+    radial-gradient(circle at 50% 48%, transparent 0 28%, rgba(0,0,0,.44) 68%),
+    linear-gradient(180deg, rgba(255,255,255,.06), transparent 30%, rgba(0,0,0,.25));
+}
+
+.intro-mark {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  justify-items: center;
+  gap: 16px;
+  color: #f5f5ef;
+  transform: translateY(12px) scale(.985);
+  filter: blur(18px);
+  opacity: 0;
+  animation: intro-mark-in .95s cubic-bezier(.16, 1, .3, 1) .12s forwards,
+    intro-mark-out .62s cubic-bezier(.7, 0, .84, 0) 1.08s forwards;
+}
+
+.intro-kicker {
+  color: rgba(245,245,239,.58);
+  font-size: 10px;
+  letter-spacing: .34em;
+}
+
+.intro-mark strong {
+  font-size: clamp(58px, 9vw, 132px);
+  font-weight: 400;
+  line-height: .86;
+  letter-spacing: -.07em;
+  text-shadow: 0 0 48px rgba(178, 202, 255, .22);
+}
+
+.intro-line {
+  position: relative;
+  width: min(280px, 52vw);
+  height: 1px;
+  overflow: hidden;
+  background: rgba(255,255,255,.13);
+}
+
+.intro-line i {
+  display: block;
+  width: 45%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, #fff, transparent);
+  transform: translateX(-100%);
+  animation: intro-line-run 1.28s cubic-bezier(.2, .8, .2, 1) .42s forwards;
+}
+
+html.intro-done .intro-screen {
+  animation: intro-screen-exit .9s cubic-bezier(.16, 1, .3, 1) forwards;
+}
+
+html.intro-active .site-header {
+  transform: translateY(-100%);
+  animation: intro-header-in .95s cubic-bezier(.16, 1, .3, 1) .98s forwards;
+}
+
+html.intro-active .hero-fallback,
+html.intro-active .hero-background-layer {
+  transform: scale(1.055);
+  filter: blur(22px) saturate(.82);
+  animation: intro-bg-in 1.45s cubic-bezier(.16, 1, .3, 1) .62s forwards;
+}
+
+html.intro-active .hero-grid,
+html.intro-active .hero-scrim {
+  opacity: 0;
+  animation: intro-soft-in 1.05s cubic-bezier(.16, 1, .3, 1) .78s forwards;
+}
+
+html.intro-active .hero-role,
+html.intro-active .hero-foot {
+  opacity: 0;
+  filter: blur(12px);
+  transform: translateY(18px);
+  animation: intro-copy-in .95s cubic-bezier(.16, 1, .3, 1) 1.05s forwards;
+}
+
+html.intro-active .hero-title-wrap {
+  opacity: 0;
+  filter: blur(20px);
+  transform: translate(-50%, calc(-50% + 34px)) scale(.982);
+  animation: intro-title-in 1.08s cubic-bezier(.16, 1, .3, 1) .88s forwards;
+}
+
+html.intro-active .hero-background-switcher {
+  opacity: 0;
+  transform: translate(-50%, 12px);
+  animation: intro-switcher-in .82s cubic-bezier(.16, 1, .3, 1) 1.18s forwards;
+}
+
+@keyframes intro-mark-in {
+  to {
+    opacity: 1;
+    filter: blur(0);
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes intro-mark-out {
+  to {
+    opacity: 0;
+    filter: blur(12px);
+    transform: translateY(-14px) scale(1.018);
+  }
+}
+
+@keyframes intro-line-run {
+  to {
+    transform: translateX(235%);
+  }
+}
+
+@keyframes intro-sheen {
+  to {
+    transform: skewX(-14deg) translateX(360%);
+  }
+}
+
+@keyframes intro-grid {
+  to {
+    opacity: .08;
+    transform: scale(1.06);
+  }
+}
+
+@keyframes intro-screen-exit {
+  to {
+    opacity: 0;
+    filter: blur(18px);
+    transform: scale(1.035);
+    visibility: hidden;
+  }
+}
+
+@keyframes intro-header-in {
+  to {
+    transform: translateY(0);
+  }
+}
+
+@keyframes intro-bg-in {
+  to {
+    transform: scale(1);
+    filter: blur(0) saturate(1);
+  }
+}
+
+@keyframes intro-soft-in {
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes intro-copy-in {
+  to {
+    opacity: 1;
+    filter: blur(0);
+    transform: translateY(0);
+  }
+}
+
+@keyframes intro-title-in {
+  to {
+    opacity: 1;
+    filter: blur(0);
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+@keyframes intro-switcher-in {
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .intro-screen {
+    display: none;
+  }
+}

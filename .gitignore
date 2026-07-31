@@ -1,0 +1,25 @@
+node_modules/
+dist/
+.wrangler/
+
+# Local environment and credentials
+.env
+.env.*
+!.env.example
+
+# Local preview and build output
+*.log
+*.tsbuildinfo
+vite.config.js
+vite.config.d.ts
+
+# Codex/Desktop working files and visual QA artifacts
+/.audit/
+/.codex/
+/.codex-logs/
+/.resume-media/
+/.resume-render/
+/artifacts/
+/assets/
+/local-desktop.png
+/reference-desktop.png
