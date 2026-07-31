@@ -11,7 +11,7 @@ npm install
 npm run dev
 ```
 
-浏览器访问：<http://127.0.0.1:4173/>
+浏览器访问：<https://sandiandesign.com/>
 
 ## 构建
 
