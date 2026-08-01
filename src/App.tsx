@@ -16,7 +16,6 @@ import { Footer } from './components/ui/footer-section'
 import { HomeProjectShowcase } from './components/ui/home-project-showcase'
 import { ProjectMenuPanel } from './components/ui/navbar-menu'
 import { ProjectExperiencePage } from './components/ui/project-experience-page'
-import { HeroSparkles } from './components/ui/sparkles'
 import {
   ProjectShowcaseLab,
   type ShowcaseVariant,
@@ -363,8 +362,8 @@ function Navigation({ standalone = false, lightGlass = false }: { standalone?: b
 }
 
 function HeroBackground() {
-  const [scene, setScene] = useState<'video' | 'galaxy'>('video')
-  const [galaxyActive, setGalaxyActive] = useState(false)
+  const [scene, setScene] = useState<'video' | 'galaxy'>('galaxy')
+  const [galaxyActive, setGalaxyActive] = useState(true)
   const [mobileViewport, setMobileViewport] = useState(() => window.matchMedia('(max-width: 767px)').matches)
   const videoRef = useRef<HTMLVideoElement>(null)
   const transitionTimerRef = useRef<number | null>(null)
@@ -628,23 +627,10 @@ function App() {
                 : { opacity: 0.8, y: 0, filter: 'blur(0px)' }
             }
             transition={{ duration: 1.05, delay: introVisible ? 0 : 0.18, ease: [0.22, 1, 0.36, 1] }}
-            className="font-alimama mt-5 text-xs font-bold uppercase tracking-[0.22em] text-white/80 md:mt-7 md:text-sm"
+            className="font-alimama mt-7 text-xs font-bold uppercase tracking-[0.22em] text-white/80 md:mt-9 md:text-sm"
           >
             UI/UX Design Portfolio
           </motion.p>
-
-          <motion.div
-            initial={{ opacity: 0, y: 12, filter: 'blur(10px)' }}
-            animate={
-              introVisible
-                ? { opacity: 0, y: 12, filter: 'blur(10px)' }
-                : { opacity: 1, y: 0, filter: 'blur(0px)' }
-            }
-            transition={{ duration: 1.15, delay: introVisible ? 0 : 0.28, ease: [0.22, 1, 0.36, 1] }}
-            className="mt-1 md:mt-2"
-          >
-            <HeroSparkles />
-          </motion.div>
 
           <motion.div
             initial={{ opacity: 0, y: 20, filter: 'blur(10px)' }}
@@ -654,7 +640,7 @@ function App() {
                 : { opacity: 1, y: 0, filter: 'blur(0px)' }
             }
             transition={{ duration: 1.05, delay: introVisible ? 0 : 0.32, ease: [0.22, 1, 0.36, 1] }}
-            className="font-yahei mt-2 flex items-center gap-3 md:mt-3"
+            className="font-yahei relative top-10 mt-3 flex items-center gap-6 md:top-14 md:mt-4 md:gap-8"
           >
             <a
               href="#projects"
