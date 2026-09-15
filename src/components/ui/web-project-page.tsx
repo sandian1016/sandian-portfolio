@@ -15,7 +15,7 @@ const webProjectFrames: WebProjectFrame[] = [
   {
     id: 'web-project-cover',
     label: '项目封面',
-    src: '/projects/web-project/web-frame-01.png',
+    src: '/projects/web-project/web-frame-01.webp',
     alt: '工业物联网安全生产平台 WEB 端项目封面',
     width: 1920,
     height: 1080,
@@ -23,7 +23,7 @@ const webProjectFrames: WebProjectFrame[] = [
   {
     id: 'project-background',
     label: '产品背景',
-    src: '/projects/web-project/web-frame-02.png',
+    src: '/projects/web-project/web-frame-02.webp',
     alt: '工业物联网安全生产平台产品背景',
     width: 1920,
     height: 1080,
@@ -31,7 +31,7 @@ const webProjectFrames: WebProjectFrame[] = [
   {
     id: 'visual-revision',
     label: '改版升级',
-    src: '/projects/web-project/web-frame-03.png',
+    src: '/projects/web-project/web-frame-03.webp',
     alt: '工业物联网安全生产平台改版升级',
     width: 1920,
     height: 1080,
@@ -39,7 +39,7 @@ const webProjectFrames: WebProjectFrame[] = [
   {
     id: 'user-analysis',
     label: '用户分析',
-    src: '/projects/web-project/web-frame-04.png',
+    src: '/projects/web-project/web-frame-04.webp',
     alt: '工业物联网安全生产平台用户分析',
     width: 1920,
     height: 1080,
@@ -47,7 +47,7 @@ const webProjectFrames: WebProjectFrame[] = [
   {
     id: 'design-strategy',
     label: '设计策略',
-    src: '/projects/web-project/web-frame-05.png',
+    src: '/projects/web-project/web-frame-05.webp',
     alt: '工业物联网安全生产平台设计策略',
     width: 1920,
     height: 1080,
@@ -55,7 +55,7 @@ const webProjectFrames: WebProjectFrame[] = [
   {
     id: 'interface-analysis',
     label: '界面功能分析',
-    src: '/projects/web-project/web-frame-06.png',
+    src: '/projects/web-project/web-frame-06.webp',
     alt: '工业物联网安全生产平台界面功能分析',
     width: 1920,
     height: 1080,
@@ -63,7 +63,7 @@ const webProjectFrames: WebProjectFrame[] = [
   {
     id: 'scene-management',
     label: '场景管理模块设计',
-    src: '/projects/web-project/web-frame-07.png',
+    src: '/projects/web-project/web-frame-07.webp',
     alt: '工业物联网安全生产平台场景管理模块设计',
     width: 1920,
     height: 1080,
@@ -71,7 +71,7 @@ const webProjectFrames: WebProjectFrame[] = [
   {
     id: 'document-center',
     label: '企业资料管理界面设计',
-    src: '/projects/web-project/web-frame-08.png',
+    src: '/projects/web-project/web-frame-08.webp',
     alt: '工业物联网安全生产平台企业资料管理界面设计',
     width: 1920,
     height: 1080,
@@ -79,7 +79,7 @@ const webProjectFrames: WebProjectFrame[] = [
   {
     id: 'rules-and-messages',
     label: '规则与消息闭环设计',
-    src: '/projects/web-project/web-frame-09.png',
+    src: '/projects/web-project/web-frame-09.webp',
     alt: '工业物联网安全生产平台规则与消息闭环设计',
     width: 1920,
     height: 1080,
@@ -87,7 +87,7 @@ const webProjectFrames: WebProjectFrame[] = [
   {
     id: 'design-validation',
     label: '设计效果与数据验证',
-    src: '/projects/web-project/web-frame-10.png',
+    src: '/projects/web-project/web-frame-10.webp',
     alt: '工业物联网安全生产平台设计效果与数据验证',
     width: 1920,
     height: 1080,
@@ -204,6 +204,7 @@ export function WebProjectPage() {
                 width={frame.width}
                 height={frame.height}
                 loading={index === 0 ? 'eager' : 'lazy'}
+                fetchPriority={index === 0 ? 'high' : 'auto'}
                 decoding="async"
                 className="block h-auto w-full object-contain transition-opacity duration-200 group-hover:opacity-95"
               />

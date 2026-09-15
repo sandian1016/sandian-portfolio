@@ -15,7 +15,7 @@ const aigcProjectFrames: AigcProjectFrame[] = [
   {
     id: 'aigc-visual-collection',
     label: '主视觉展示合集',
-    src: '/projects/aigc-project/aigc-frame-01.png',
+    src: '/projects/aigc-project/aigc-frame-01.webp',
     alt: 'AIGC 主视觉设计作品合集',
     width: 1920,
     height: 2935,
@@ -23,7 +23,7 @@ const aigcProjectFrames: AigcProjectFrame[] = [
   {
     id: 'aigc-recruitment-illustration',
     label: '插画设计｜招聘',
-    src: '/projects/aigc-project/aigc-frame-02.png',
+    src: '/projects/aigc-project/aigc-frame-02.webp',
     alt: '联通数科二〇二六年夏季招聘插画设计',
     width: 1920,
     height: 5057,
@@ -31,7 +31,7 @@ const aigcProjectFrames: AigcProjectFrame[] = [
   {
     id: 'aigc-ip-illustration',
     label: '插画设计｜IP形象',
-    src: '/projects/aigc-project/aigc-frame-03.png',
+    src: '/projects/aigc-project/aigc-frame-03.webp',
     alt: '联通数科通通 IP 形象插画设计',
     width: 1920,
     height: 5057,
@@ -39,7 +39,7 @@ const aigcProjectFrames: AigcProjectFrame[] = [
   {
     id: 'aigc-festival-posters',
     label: '情感化设计｜节日海报',
-    src: '/projects/aigc-project/aigc-frame-04.png',
+    src: '/projects/aigc-project/aigc-frame-04.webp',
     alt: '联通数科通通 IP 节日海报插画设计',
     width: 1920,
     height: 4493,
@@ -152,6 +152,7 @@ export function AigcProjectPage() {
                 width={frame.width}
                 height={frame.height}
                 loading={index === 0 ? 'eager' : 'lazy'}
+                fetchPriority={index === 0 ? 'high' : 'auto'}
                 decoding="async"
                 className="block h-auto w-full object-contain transition-opacity duration-200 group-hover:opacity-95"
               />

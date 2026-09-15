@@ -29,7 +29,7 @@ const mobileProjectFrames: MobileProjectFrame[] = [
 ].map(([id, label, alt], index) => ({
   id,
   label,
-  src: `/projects/mobile-project/mobile-frame-${String(index + 1).padStart(2, '0')}.png`,
+  src: `/projects/mobile-project/mobile-frame-${String(index + 1).padStart(2, '0')}.webp`,
   alt,
   width: 1920,
   height: 1080,
@@ -141,6 +141,7 @@ export function MobileProjectPage() {
                 width={frame.width}
                 height={frame.height}
                 loading={index === 0 ? 'eager' : 'lazy'}
+                fetchPriority={index === 0 ? 'high' : 'auto'}
                 decoding="async"
                 className="block h-auto w-full object-contain transition-opacity duration-200 group-hover:opacity-95"
               />

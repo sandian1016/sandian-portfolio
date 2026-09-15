@@ -969,8 +969,29 @@ a {
 
 .project-lightbox-stage::-webkit-scrollbar { display: none; }
 
-@media (min-width: 1900px) {
-  .web-project-sidebar { display: block; }
+@media (min-width: 1024px) and (max-width: 1663px) {
+  .web-project-sidebar {
+    left: 16px;
+    display: block;
+    width: 160px;
+  }
+
+  .project-frame-scroll {
+    padding-left: clamp(0px, calc(1664px - 100vw), 160px);
+  }
+
+  .web-project-sidebar__link {
+    padding-right: 8px;
+    font-size: 15px;
+  }
+}
+
+@media (min-width: 1664px) {
+  .web-project-sidebar {
+    left: max(16px, calc(50% - 932px));
+    display: block;
+    width: min(260px, calc((100vw - 1280px) / 2 - 24px));
+  }
 }
 
 @media (max-width: 800px) {
