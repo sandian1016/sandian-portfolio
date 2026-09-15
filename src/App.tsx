@@ -10,25 +10,32 @@ import 'lenis/dist/lenis.css'
 import { ChevronDown, Menu, X } from 'lucide-react'
 import { type ReactNode, useEffect, useRef, useState } from 'react'
 import Galaxy from './components/Galaxy'
+import { AigcProjectPage } from './components/ui/aigc-project-page'
 import { AboutSection } from './components/ui/about-section'
 import { BrandLogo } from './components/ui/brand-logo'
 import { Footer } from './components/ui/footer-section'
+import { HeroCarousel } from './components/ui/hero-carousel'
 import { HomeProjectShowcase } from './components/ui/home-project-showcase'
 import { ProjectMenuPanel } from './components/ui/navbar-menu'
+import { MobileProjectPage } from './components/ui/mobile-project-page'
 import { ProjectExperiencePage } from './components/ui/project-experience-page'
 import {
   ProjectShowcaseLab,
   type ShowcaseVariant,
 } from './components/ui/project-showcase-lab'
+import { WebProjectPage } from './components/ui/web-project-page'
+import { VisualizationProjectPage } from './components/ui/visualization-project-page'
 
-const VIDEO_URL =
-  'https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260328_105406_16f4600d-7a92-4292-b96e-b19156c7830a.mp4'
-const MOBILE_VIDEO_URL = '/media/hero-mobile.mp4'
-const VIDEO_POSTER_URL = '/media/hero-poster.webp'
-
-const BACKGROUND_HOLD_MS = 9000
-const BACKGROUND_FADE_MS = 1600
 const PROJECT_ENTRY_EASE = [0.22, 1, 0.36, 1] as const
+const OPENING_SEQUENCE_SESSION_KEY = 'sandian-opening-sequence-seen'
+
+function hasSeenOpeningSequence() {
+  try {
+    return window.sessionStorage.getItem(OPENING_SEQUENCE_SESSION_KEY) === 'true'
+  } catch {
+    return false
+  }
+}
 
 const navItems = [
   { label: '主页', href: '#home' },
@@ -43,9 +50,9 @@ function TitleGlow({ children }: { children: string }) {
       className="inline-block text-white"
       animate={{
         textShadow: [
-          '0 0 18px rgba(255,255,255,0.10), 0 0 42px rgba(100,206,251,0.08)',
-          '0 0 24px rgba(255,255,255,0.22), 0 0 58px rgba(100,206,251,0.17)',
-          '0 0 18px rgba(255,255,255,0.10), 0 0 42px rgba(100,206,251,0.08)',
+          '0 0 18px rgba(255,255,255,0.10), 0 0 42px rgba(0,85,255,0.08)',
+          '0 0 24px rgba(255,255,255,0.22), 0 0 58px rgba(0,85,255,0.17)',
+          '0 0 18px rgba(255,255,255,0.10), 0 0 42px rgba(0,85,255,0.08)',
         ],
       }}
       transition={{
@@ -74,7 +81,7 @@ function OpeningSequence({ visible }: { visible: boolean }) {
           transition={{ duration: 1.05, ease: [0.76, 0, 0.24, 1] }}
           aria-hidden="true"
         >
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(100,206,251,0.10),transparent_34%)]" />
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(0,85,255,0.10),transparent_34%)]" />
           <motion.div
             className="relative flex flex-col items-center"
             initial={{ opacity: 0, y: 16, scale: 0.92 }}
@@ -99,7 +106,7 @@ function OpeningSequence({ visible }: { visible: boolean }) {
             </motion.p>
             <span className="mt-5 h-[3px] w-52 overflow-hidden rounded-full bg-white/[0.10] sm:w-60">
               <motion.span
-                className="block h-full origin-left rounded-full bg-gradient-to-r from-[#64CEFB] via-white to-[#B8F1FF] shadow-[0_0_14px_rgba(100,206,251,0.82)]"
+                className="block h-full origin-left rounded-full bg-gradient-to-r from-brand via-white to-brand/50 shadow-[0_0_14px_rgba(0,85,255,0.55)]"
                 initial={{ scaleX: 0, opacity: 0.65 }}
                 animate={{ scaleX: [0, 0.22, 0.48, 0.72, 0.9, 1], opacity: [0.65, 1, 1, 1, 1, 0.95] }}
                 transition={{
@@ -146,8 +153,8 @@ function ProjectPageEntrance({
         clipPath: 'inset(0% 0 0 0 round 0px)',
       }}
       transition={{
-        duration: reduceMotion ? 0 : 1.2,
-        delay: reduceMotion ? 0 : 0.12,
+        duration: reduceMotion ? 0 : 0.82,
+        delay: reduceMotion ? 0 : 0.06,
         ease: PROJECT_ENTRY_EASE,
       }}
     >
@@ -173,6 +180,9 @@ function Navigation({ standalone = false, lightGlass = false }: { standalone?: b
   const standardNavItems = navItems.slice(0, -1)
   const contactItem = navItems[navItems.length - 1]
   const resolveHref = (href: string) => (standalone ? `/${href}` : href)
+  const mobileLinkClass = lightGlass
+    ? 'text-[#173149]/76 hover:bg-[#eaf6fc] hover:text-[#0b1f33]'
+    : 'text-white/80 hover:bg-white/10 hover:text-white'
   const closeMobileMenu = () => {
     setMenuOpen(false)
     setMobileProjectsOpen(false)
@@ -310,8 +320,10 @@ function Navigation({ standalone = false, lightGlass = false }: { standalone?: b
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -12 }}
             transition={{ duration: 0.22 }}
-            className={`absolute left-5 right-5 top-[6.25rem] max-h-[calc(100vh-7.5rem)] overflow-y-auto rounded-[22px] border border-white/20 p-3 shadow-2xl backdrop-blur-2xl sm:left-8 sm:right-8 lg:hidden ${
-              lightGlass ? 'bg-[#173149]/88' : 'bg-[#17151f]/95'
+            className={`absolute left-5 right-5 top-[6.25rem] max-h-[calc(100vh-7.5rem)] overflow-y-auto rounded-[22px] p-3 backdrop-blur-2xl sm:left-8 sm:right-8 lg:hidden ${
+              lightGlass
+                ? 'border border-white/70 bg-white/92 shadow-[0_20px_60px_rgba(39,94,126,0.18)]'
+                : 'border border-white/20 bg-[#17151f]/95 shadow-2xl'
             }`}
             aria-label="Mobile navigation"
           >
@@ -321,7 +333,7 @@ function Navigation({ standalone = false, lightGlass = false }: { standalone?: b
                   <button
                     type="button"
                     onClick={() => setMobileProjectsOpen((open) => !open)}
-                    className="flex w-full items-center justify-between rounded-2xl px-4 py-3 text-sm text-white/80 transition-colors duration-300 hover:bg-white/10 hover:text-white"
+                    className={`flex w-full items-center justify-between rounded-2xl px-4 py-3 text-sm transition-colors duration-300 ${mobileLinkClass}`}
                     aria-expanded={mobileProjectsOpen}
                   >
                     {item.label}
@@ -338,7 +350,7 @@ function Navigation({ standalone = false, lightGlass = false }: { standalone?: b
                         transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
                         className="overflow-hidden"
                       >
-                        <ProjectMenuPanel compact theme="dark" onNavigate={closeMobileMenu} />
+                        <ProjectMenuPanel compact theme={lightGlass ? 'light' : 'dark'} onNavigate={closeMobileMenu} />
                       </motion.div>
                     )}
                   </AnimatePresence>
@@ -348,7 +360,7 @@ function Navigation({ standalone = false, lightGlass = false }: { standalone?: b
                   key={item.href}
                   href={resolveHref(item.href)}
                   onClick={closeMobileMenu}
-                  className="block rounded-2xl px-4 py-3 text-sm text-white/80 transition-colors duration-300 hover:bg-white/10 hover:text-white"
+                  className={`block rounded-2xl px-4 py-3 text-sm transition-colors duration-300 ${mobileLinkClass}`}
                 >
                   {item.label}
                 </a>
@@ -362,11 +374,7 @@ function Navigation({ standalone = false, lightGlass = false }: { standalone?: b
 }
 
 function HeroBackground() {
-  const [scene, setScene] = useState<'video' | 'galaxy'>('galaxy')
-  const [galaxyActive, setGalaxyActive] = useState(true)
   const [mobileViewport, setMobileViewport] = useState(() => window.matchMedia('(max-width: 767px)').matches)
-  const videoRef = useRef<HTMLVideoElement>(null)
-  const transitionTimerRef = useRef<number | null>(null)
   const reduceMotion = useReducedMotion()
 
   useEffect(() => {
@@ -376,102 +384,24 @@ function HeroBackground() {
     return () => mediaQuery.removeEventListener('change', handleViewportChange)
   }, [])
 
-  useEffect(() => {
-    const video = videoRef.current
-    if (!video) return
-
-    video.muted = true
-    video.defaultMuted = true
-    video.load()
-
-    const tryPlay = () => {
-      void video.play().catch(() => undefined)
-    }
-
-    tryPlay()
-    window.addEventListener('touchstart', tryPlay, { once: true, passive: true })
-    window.addEventListener('pointerdown', tryPlay, { once: true, passive: true })
-
-    return () => {
-      window.removeEventListener('touchstart', tryPlay)
-      window.removeEventListener('pointerdown', tryPlay)
-    }
-  }, [mobileViewport])
-
-  useEffect(() => {
-    if (reduceMotion) return
-
-    const sceneTimer = window.setTimeout(() => {
-      if (scene === 'video') {
-        setGalaxyActive(true)
-        setScene('galaxy')
-        transitionTimerRef.current = window.setTimeout(() => {
-          videoRef.current?.pause()
-        }, BACKGROUND_FADE_MS)
-      } else {
-        void videoRef.current?.play().catch(() => undefined)
-        setScene('video')
-        transitionTimerRef.current = window.setTimeout(() => {
-          setGalaxyActive(false)
-        }, BACKGROUND_FADE_MS)
-      }
-    }, BACKGROUND_HOLD_MS)
-
-    return () => window.clearTimeout(sceneTimer)
-  }, [reduceMotion, scene])
-
-  useEffect(
-    () => () => {
-      if (transitionTimerRef.current !== null) {
-        window.clearTimeout(transitionTimerRef.current)
-      }
-    },
-    [],
-  )
-
   return (
     <div className="absolute inset-0 bg-black" aria-hidden="true">
-      <video
-        ref={videoRef}
-        className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-[1600ms] ease-[cubic-bezier(0.45,0,0.15,1)] will-change-[opacity] ${
-          scene === 'video' ? 'opacity-100' : 'opacity-0'
-        }`}
-        src={mobileViewport ? MOBILE_VIDEO_URL : VIDEO_URL}
-        poster={VIDEO_POSTER_URL}
-        autoPlay
-        loop
-        muted
-        playsInline
-        preload="auto"
-        onCanPlay={() => void videoRef.current?.play().catch(() => undefined)}
-        onError={() => {
-          setGalaxyActive(true)
-          setScene('galaxy')
-        }}
+      <Galaxy
+        active={!reduceMotion}
+        mouseInteraction={!mobileViewport}
+        mouseRepulsion
+        density={mobileViewport ? 0.72 : 1}
+        glowIntensity={mobileViewport ? 0.25 : 0.3}
+        saturation={0.5}
+        hueShift={180}
+        twinkleIntensity={0.3}
+        rotationSpeed={0.1}
+        repulsionStrength={2}
+        autoCenterRepulsion={0}
+        starSpeed={0.5}
+        speed={1}
+        transparent={false}
       />
-
-      <div
-        className={`absolute inset-0 transition-opacity duration-[1600ms] ease-[cubic-bezier(0.45,0,0.15,1)] will-change-[opacity] ${
-          scene === 'galaxy' ? 'opacity-100' : 'opacity-0'
-        }`}
-      >
-        <Galaxy
-          active={galaxyActive && !reduceMotion}
-          mouseInteraction={!mobileViewport}
-          mouseRepulsion
-          density={mobileViewport ? 0.72 : 1}
-          glowIntensity={mobileViewport ? 0.25 : 0.3}
-          saturation={0.5}
-          hueShift={180}
-          twinkleIntensity={0.3}
-          rotationSpeed={0.1}
-          repulsionStrength={2}
-          autoCenterRepulsion={0}
-          starSpeed={0.5}
-          speed={1}
-          transparent={false}
-        />
-      </div>
     </div>
   )
 }
@@ -479,24 +409,29 @@ function HeroBackground() {
 function App() {
   const searchParams = new URLSearchParams(window.location.search)
   const aboutPreviewMode = searchParams.get('aboutPreview') === '1'
-  const bgProductMode = searchParams.get('page') === 'bg-product'
   const projectExperienceMode = searchParams.get('page') === 'experience'
+  const webProjectMode = searchParams.get('page') === 'web-project'
+  const mobileProjectMode = searchParams.get('page') === 'mobile-project'
+  const visualizationProjectMode = searchParams.get('page') === 'visualization-project'
+  const aigcProjectMode = searchParams.get('page') === 'aigc-project'
   const projectPreviewParam = searchParams.get('projectPreview')
   const projectPreviewMode = projectPreviewParam === '1' || projectPreviewParam === '2' || projectPreviewParam === '3'
   const projectPreviewVariant: ShowcaseVariant =
     projectPreviewParam === '2' ? 'stage' : projectPreviewParam === '3' ? 'archive' : 'atlas'
-  const [introVisible, setIntroVisible] = useState(!aboutPreviewMode)
+  const isStandalonePage = aboutPreviewMode || projectExperienceMode || projectPreviewMode || webProjectMode || mobileProjectMode || visualizationProjectMode || aigcProjectMode
+  const [introVisible, setIntroVisible] = useState(() => !isStandalonePage && !hasSeenOpeningSequence())
   const heroRef = useRef<HTMLElement>(null)
   const reducePageMotion = useReducedMotion()
   const { scrollYProgress: heroScrollProgress } = useScroll({
     target: heroRef,
     offset: ['start start', 'end start'],
   })
-  const heroContentY = useTransform(heroScrollProgress, [0, 1], [0, -92])
-  const heroContentScale = useTransform(heroScrollProgress, [0, 0.72, 1], [1, 0.985, 0.96])
-  const heroContentOpacity = useTransform(heroScrollProgress, [0, 0.58, 1], [1, 0.78, 0.16])
+  const heroContentY = useTransform(heroScrollProgress, [0, 1], [0, -42])
+  const heroContentScale = useTransform(heroScrollProgress, [0, 0.72, 1], [1, 0.992, 0.978])
+  const heroContentOpacity = useTransform(heroScrollProgress, [0, 0.55, 1], [1, 0.96, 0.78])
 
   useEffect(() => {
+    if (webProjectMode || mobileProjectMode || visualizationProjectMode || aigcProjectMode) return
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
 
     const lenis = new Lenis({
@@ -512,7 +447,7 @@ function App() {
     })
 
     return () => lenis.destroy()
-  }, [])
+  }, [aigcProjectMode, mobileProjectMode, visualizationProjectMode, webProjectMode])
 
   useEffect(() => {
     const shouldReturnHome = window.location.hash === '' || window.location.hash === '#home'
@@ -539,6 +474,14 @@ function App() {
   }, [])
 
   useEffect(() => {
+    try {
+      window.sessionStorage.setItem(OPENING_SEQUENCE_SESSION_KEY, 'true')
+    } catch {
+      // Keep the opening sequence functional when session storage is unavailable.
+    }
+  }, [])
+
+  useEffect(() => {
     if (aboutPreviewMode) return
     const timer = window.setTimeout(() => setIntroVisible(false), 1550)
     return () => window.clearTimeout(timer)
@@ -546,17 +489,56 @@ function App() {
 
   if (aboutPreviewMode) {
     return (
-      <main className="min-h-screen bg-black font-sans text-white">
-        <Navigation />
-        <div className="h-[92px] bg-[#08080b] md:h-[96px]" aria-hidden="true" />
+      <main className="min-h-screen bg-[#f8fbfd] font-sans text-[#0b1f33]">
+        <Navigation lightGlass />
+        <div className="h-[92px] md:h-[96px]" aria-hidden="true" />
         <AboutSection previewMode />
       </main>
     )
   }
 
-  if (bgProductMode) {
-    window.location.replace('/#projects')
-    return null
+  if (webProjectMode) {
+    return (
+      <main className="min-h-screen bg-[#151515] font-sans text-white">
+        <Navigation standalone />
+        <ProjectPageEntrance>
+          <WebProjectPage />
+        </ProjectPageEntrance>
+      </main>
+    )
+  }
+
+  if (mobileProjectMode) {
+    return (
+      <main className="h-svh overflow-hidden bg-[#151515] font-sans text-white">
+        <Navigation standalone />
+        <ProjectPageEntrance className="h-full">
+          <MobileProjectPage />
+        </ProjectPageEntrance>
+      </main>
+    )
+  }
+
+  if (visualizationProjectMode) {
+    return (
+      <main className="h-svh overflow-hidden bg-[#151515] font-sans text-white">
+        <Navigation standalone />
+        <ProjectPageEntrance className="h-full">
+          <VisualizationProjectPage />
+        </ProjectPageEntrance>
+      </main>
+    )
+  }
+
+  if (aigcProjectMode) {
+    return (
+      <main className="h-svh overflow-hidden bg-[#151515] font-sans text-white">
+        <Navigation standalone />
+        <ProjectPageEntrance className="h-full">
+          <AigcProjectPage />
+        </ProjectPageEntrance>
+      </main>
+    )
   }
 
   if (projectPreviewMode) {
@@ -583,80 +565,21 @@ function App() {
   }
 
   return (
-    <main className="min-h-screen bg-black font-sans text-white">
+    <main className="min-h-screen bg-[#f8fbfd] font-sans text-[#0b1f33]">
       <OpeningSequence visible={introVisible} />
-      <Navigation />
+      <Navigation lightGlass />
 
-      <section ref={heroRef} id="home" className="relative h-screen min-h-[680px] overflow-hidden bg-black">
-        <HeroBackground />
-        <div className="pointer-events-none absolute inset-0 bg-black/25" aria-hidden="true" />
-        <div
-          className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_bottom,rgba(0,0,0,0.45)_0%,transparent_32%,rgba(0,0,0,0.2)_72%,rgba(0,0,0,0.58)_100%)]"
-          aria-hidden="true"
-        />
-
-        <div className="relative z-10 mx-auto flex h-full w-full max-w-[1920px] flex-col px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12 2xl:px-16">
-          <div className="h-[92px] shrink-0 md:h-[96px]" aria-hidden="true" />
-
-          <motion.div
-            style={
-              reducePageMotion
-                ? undefined
-                : { y: heroContentY, scale: heroContentScale, opacity: heroContentOpacity }
-            }
-            className="flex flex-1 flex-col items-center justify-center pb-14 text-center will-change-transform sm:pb-16 md:pb-20"
-          >
-          <motion.h1
-            initial={{ opacity: 0.08, y: 30, scale: 0.975, filter: 'blur(16px)' }}
-            animate={
-              introVisible
-                ? { opacity: 0.08, y: 30, scale: 0.975, filter: 'blur(16px)' }
-                : { opacity: 1, y: 0, scale: 1, filter: 'blur(0px)' }
-            }
-            transition={{ duration: 1.45, ease: [0.22, 1, 0.36, 1] }}
-            className="font-yahei whitespace-nowrap text-[clamp(2.75rem,9vw,11rem)] font-bold leading-[0.85] tracking-[clamp(1px,0.2vw,4px)] text-white"
-          >
-            <TitleGlow>UIUX作品集</TitleGlow>
-          </motion.h1>
-
-          <motion.p
-            initial={{ opacity: 0, y: 14, filter: 'blur(8px)' }}
-            animate={
-              introVisible
-                ? { opacity: 0, y: 14, filter: 'blur(8px)' }
-                : { opacity: 0.8, y: 0, filter: 'blur(0px)' }
-            }
-            transition={{ duration: 1.05, delay: introVisible ? 0 : 0.18, ease: [0.22, 1, 0.36, 1] }}
-            className="font-alimama mt-7 text-xs font-bold uppercase tracking-[0.22em] text-white/80 md:mt-9 md:text-sm"
-          >
-            UI/UX Design Portfolio
-          </motion.p>
-
-          <motion.div
-            initial={{ opacity: 0, y: 20, filter: 'blur(10px)' }}
-            animate={
-              introVisible
-                ? { opacity: 0, y: 20, filter: 'blur(10px)' }
-                : { opacity: 1, y: 0, filter: 'blur(0px)' }
-            }
-            transition={{ duration: 1.05, delay: introVisible ? 0 : 0.32, ease: [0.22, 1, 0.36, 1] }}
-            className="font-yahei relative top-10 mt-3 flex items-center gap-6 md:top-14 md:mt-4 md:gap-8"
-          >
-            <a
-              href="#projects"
-              className="rounded-[15px] bg-white px-7 py-4 text-sm font-semibold text-[#111016] shadow-[0_10px_30px_rgba(255,255,255,0.09)] transition-all duration-300 hover:-translate-y-0.5 hover:bg-white/90"
-            >
-              开始预览
-            </a>
-            <a
-              href="#about"
-              className="rounded-[15px] border border-white/[0.12] bg-[#1a1821]/75 px-7 py-4 text-sm font-semibold text-white/65 shadow-[inset_0_1px_0_rgba(255,255,255,0.04)] backdrop-blur-xl transition-all duration-300 hover:-translate-y-0.5 hover:border-white/20 hover:bg-white/[0.1] hover:text-white"
-            >
-              了解更多
-            </a>
-          </motion.div>
-          </motion.div>
-        </div>
+      <section
+        ref={heroRef}
+        id="home"
+        className="relative h-[clamp(600px,100svh,720px)] overflow-hidden bg-[#f4f8ff] text-[#0b1f33] md:h-[600px]"
+      >
+        <motion.div
+          style={reducePageMotion ? undefined : { y: heroContentY, scale: heroContentScale, opacity: heroContentOpacity }}
+          className="h-full will-change-transform"
+        >
+          <HeroCarousel introVisible={introVisible} />
+        </motion.div>
       </section>
 
       <AboutSection />

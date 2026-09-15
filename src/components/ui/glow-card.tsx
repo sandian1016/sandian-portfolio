@@ -30,8 +30,8 @@ export function GlowCard({
       coneSpread={compact ? 16 : 20}
       colors={
         light
-          ? ['#00A3FF', '#64CEFB', '#9BCFFF']
-          : ['#64CEFB', '#6FA8FF', '#B6C8D8']
+          ? ['rgba(0, 85, 255, 0.9)', 'rgba(0, 85, 255, 0.62)', 'rgba(0, 85, 255, 0.3)']
+          : ['rgba(0, 85, 255, 0.9)', 'rgba(0, 85, 255, 0.62)', 'rgba(0, 85, 255, 0.3)']
       }
       fillOpacity={light ? 0.07 : 0.12}
     >

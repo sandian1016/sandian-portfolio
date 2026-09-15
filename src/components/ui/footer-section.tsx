@@ -1,18 +1,20 @@
-import type { ComponentProps, ReactNode } from 'react'
-import { motion, useReducedMotion } from 'framer-motion'
-import { ArrowUpRight, Mail, MapPin, Phone } from 'lucide-react'
+import { useRef } from 'react'
+import { ArrowRight, MapPin } from 'lucide-react'
+import { useInView, useReducedMotion } from 'framer-motion'
 import { BrandLogo } from './brand-logo'
-import { GlowCard } from './glow-card'
+import { projectCategories } from './navbar-menu'
 
-type FooterLink = {
-  title: string
-  href: string
-}
+type FooterLink = { title: string; href: string }
+type FooterSection = { label: string; links: FooterLink[] }
 
-type FooterSection = {
-  label: string
-  links: FooterLink[]
-}
+const assetRoot = 'https://zego-platform-growth.oss-cn-shanghai.aliyuncs.com/official-website/images/index'
+
+const servicePoints = [
+  { label: 'WEB端产品', iconSrc: '/footer/icon-product.svg' },
+  { label: '数据可视化', iconSrc: '/footer/icon-dataviz.svg' },
+  { label: '移动端产品', iconSrc: '/footer/icon-mobile.svg' },
+  { label: 'AIGC设计', iconSrc: '/footer/icon-ai.svg' },
+]
 
 const footerSections: FooterSection[] = [
   {
@@ -26,131 +28,86 @@ const footerSections: FooterSection[] = [
   },
   {
     label: '设计方向',
-    links: [
-      { title: 'B / G 端产品', href: '#projects' },
-      { title: '数据可视化', href: '#projects' },
-      { title: '移动端产品', href: '#projects' },
-      { title: 'AI设计', href: '#about' },
-    ],
+    links: projectCategories.map((category) => ({
+      title: category.label,
+      href: category.href ?? '#projects',
+    })),
   },
 ]
 
-export function Footer() {
+export function Footer({ standalone = false }: { standalone?: boolean }) {
+  const footerRef = useRef<HTMLElement>(null)
+  const isInView = useInView(footerRef, { amount: 0.16, once: false })
+  const reduceMotion = useReducedMotion()
+  const resolveHref = (href: string) =>
+    standalone && href.startsWith('#') ? `/${href}` : href
+
   return (
-    <footer
-      id="contact"
-      className="relative isolate overflow-hidden border-t border-white/[0.10] bg-[#08080b] px-4 py-12 sm:px-6 md:px-8 md:py-14 lg:px-10 lg:py-16 xl:px-12 2xl:px-16"
-    >
-      <div className="relative mx-auto flex w-full max-w-[1920px] flex-col">
-        <div className="grid gap-10 border-b border-white/[0.10] pb-12 lg:grid-cols-[1.35fr_0.65fr] lg:items-end lg:gap-16 lg:pb-14">
-          <AnimatedContainer>
-            <p className="mb-5 text-xs font-semibold uppercase tracking-[0.26em] text-[#64CEFB]">
-              Have a project in mind?
-            </p>
-            <h2 className="font-yahei max-w-4xl text-4xl font-bold leading-none tracking-[-0.04em] text-white sm:text-6xl lg:text-7xl">
-              <span className="block">一起把复杂问题，</span>
-              <span className="mt-3 block">设计得更简单。</span>
-            </h2>
-          </AnimatedContainer>
+    <footer id="contact" ref={footerRef} className="zego-clone-footer">
+      <section className="zego-footer-cta">
+        <div className="zego-footer-cta__background" aria-hidden="true" />
+        <div className={`zego-footer-light ${isInView || reduceMotion ? 'is-active' : ''}`} aria-hidden="true">
+          <img src={`${assetRoot}/footer_light.png`} alt="" loading="lazy" decoding="async" />
+        </div>
+        <div className="zego-footer-shell zego-footer-cta__inner">
+          <div className="zego-footer-cta__copy">
+            <p>一起把复杂问题，</p>
+            <p>设计得 <span>更简单</span>。</p>
+            <a href={resolveHref('#projects')} className="zego-footer-trial">查看作品 <ArrowRight aria-hidden="true" /></a>
+          </div>
 
-          <AnimatedContainer delay={0.12} className="space-y-3">
-            <GlowCard radius={20} compact>
+          <div className="zego-footer-services" aria-label="设计方向">
+            {servicePoints.map((point, index) => (
               <div
-                aria-label="邮箱已隐藏"
-                className="group flex items-center justify-between bg-white/[0.045] px-5 py-4 backdrop-blur-xl transition-colors duration-300 hover:bg-white/[0.075]"
+                key={point.label}
+                className="zego-footer-service"
               >
-                <span className="flex items-center gap-3 text-sm text-white/80">
-                  <Mail className="h-4 w-4 text-[#64CEFB]" />
-                  *****
-                </span>
-                <ArrowUpRight aria-hidden="true" className="h-4 w-4 text-white/45 transition-all duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-white" />
+                <img src={point.iconSrc} alt="" loading="lazy" decoding="async" />
+                <span>{point.label}</span>
               </div>
-            </GlowCard>
+            ))}
+          </div>
+        </div>
+      </section>
 
-            <GlowCard radius={20} compact>
-              <div
-                aria-label="电话已隐藏"
-                className="group flex items-center justify-between bg-white/[0.035] px-5 py-4 backdrop-blur-xl transition-colors duration-300 hover:bg-white/[0.065]"
-              >
-                <span className="flex items-center gap-3 text-sm text-white/70">
-                  <Phone className="h-4 w-4 text-[#64CEFB]" />
-                  *****
-                </span>
-                <ArrowUpRight aria-hidden="true" className="h-4 w-4 text-white/35 transition-all duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-white" />
-              </div>
-            </GlowCard>
-
-            <div className="flex items-center gap-3 px-5 py-3 text-sm text-white/45">
-              <MapPin className="h-4 w-4" />
-              南京 · UI/UX & Product Designer
+      <section className="zego-footer-information">
+        <div className="zego-footer-shell">
+          <div className="zego-footer-menu">
+            <div className="zego-footer-brand">
+              <a href={resolveHref('#home')} className="zego-footer-brand__identity" aria-label="Sandian design 返回首页">
+                <BrandLogo />
+                <span>Sandian design</span>
+              </a>
+              <p>专注复杂业务系统、数据可视化与全链路产品体验，用设计连接业务目标与真实用户。</p>
             </div>
-          </AnimatedContainer>
+
+            <div className="zego-footer-columns">
+              {footerSections.map((section) => (
+                <div className="zego-footer-column" key={section.label}>
+                  <h3>{section.label}</h3>
+                  <ul>
+                    {section.links.map((link) => <li key={link.title}><a href={resolveHref(link.href)}>{link.title}</a></li>)}
+                  </ul>
+                </div>
+              ))}
+            </div>
+
+            <div className="zego-footer-contact">
+              <h3>关注或联系我</h3>
+              <dl>
+                <div><dt>邮箱：</dt><dd><a href="mailto:sandian1016@gmail.com">sandian1016@gmail.com</a><a href="mailto:1270434903@qq.com">1270434903@qq.com</a></dd></div>
+                <div><dt>电话：</dt><dd><a href="tel:16651720602">16651720602</a><a href="tel:15862266874">15862266874</a></dd></div>
+              </dl>
+              <p className="zego-footer-location"><MapPin aria-hidden="true" /> 南京 · UI/UX &amp; Product Designer</p>
+            </div>
+          </div>
+
+          <div className="zego-footer-legal">
+            <p>© {new Date().getFullYear()} Sandian design. All rights reserved.</p>
+            <p>Designed with clarity, built with detail.</p>
+          </div>
         </div>
-
-        <div className="grid gap-10 py-10 md:grid-cols-[1fr_1fr] lg:grid-cols-[1.25fr_0.75fr_0.75fr] lg:gap-14 lg:py-11">
-          <AnimatedContainer className="space-y-5">
-            <a href="#home" className="inline-flex items-center gap-3" aria-label="Sandian design 返回首页">
-              <BrandLogo />
-              <span className="text-base font-bold text-white">Sandian design</span>
-            </a>
-            <p className="max-w-sm text-sm leading-6 text-white/45">
-              专注复杂业务系统、数据可视化与全链路产品体验，用设计连接业务目标与真实用户。
-            </p>
-          </AnimatedContainer>
-
-          {footerSections.map((section, index) => (
-            <AnimatedContainer key={section.label} delay={0.08 + index * 0.08}>
-              <h3 className="text-xs font-semibold uppercase tracking-[0.18em] text-white/35">{section.label}</h3>
-              <ul className="mt-5 space-y-3 text-sm">
-                {section.links.map((link) => (
-                  <li key={`${section.label}-${link.title}`}>
-                    <a
-                      href={link.href}
-                      className="inline-flex text-white/55 transition-all duration-300 hover:translate-x-1 hover:text-white"
-                    >
-                      {link.title}
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </AnimatedContainer>
-          ))}
-        </div>
-
-        <AnimatedContainer
-          delay={0.18}
-          className="flex flex-col gap-3 border-t border-white/[0.08] pt-5 text-xs text-white/30 sm:flex-row sm:items-center sm:justify-between"
-        >
-          <p>© {new Date().getFullYear()} Sandian design. All rights reserved.</p>
-          <p>Designed with clarity, built with detail.</p>
-        </AnimatedContainer>
-      </div>
+      </section>
     </footer>
-  )
-}
-
-type ViewAnimationProps = {
-  delay?: number
-  className?: ComponentProps<typeof motion.div>['className']
-  children: ReactNode
-}
-
-function AnimatedContainer({ className, delay = 0.05, children }: ViewAnimationProps) {
-  const shouldReduceMotion = useReducedMotion()
-
-  if (shouldReduceMotion) {
-    return <div className={className}>{children}</div>
-  }
-
-  return (
-    <motion.div
-      initial={{ filter: 'blur(6px)', y: 18, opacity: 0 }}
-      whileInView={{ filter: 'blur(0px)', y: 0, opacity: 1 }}
-      viewport={{ once: true, amount: 0.22 }}
-      transition={{ delay, duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-      className={className}
-    >
-      {children}
-    </motion.div>
   )
 }

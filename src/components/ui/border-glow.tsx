@@ -83,7 +83,7 @@ export function BorderGlow({
   glowRadius = 30,
   glowIntensity = 0.52,
   coneSpread = 22,
-  colors = ['#64CEFB', '#6FA8FF', '#B6C8D8'],
+  colors = ['rgba(0, 85, 255, 0.9)', 'rgba(0, 85, 255, 0.62)', 'rgba(0, 85, 255, 0.3)'],
   fillOpacity = 0.18,
 }: BorderGlowProps) {
   const cardRef = useRef<HTMLDivElement>(null)

@@ -87,7 +87,7 @@ export function ProjectExperiencePage() {
   return (
     <section className="relative isolate min-h-screen overflow-hidden bg-[#08080b] px-5 pb-24 pt-36 text-white sm:px-8 md:pt-40 lg:px-10 lg:pb-32">
       <div
-        className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_8%_4%,rgba(100,206,251,0.11),transparent_25%),radial-gradient(circle_at_91%_36%,rgba(100,120,255,0.08),transparent_28%)]"
+        className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_8%_4%,rgba(0,85,255,0.11),transparent_25%),radial-gradient(circle_at_91%_36%,rgba(0,85,255,0.08),transparent_28%)]"
         aria-hidden="true"
       />
       <div className="relative mx-auto max-w-7xl">
@@ -102,9 +102,9 @@ export function ProjectExperiencePage() {
 
           <div className="mt-10 grid gap-10 border-b border-white/[0.1] pb-14 lg:grid-cols-[1.2fr_0.8fr] lg:items-end">
             <div>
-              <div className="flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.24em] text-[#64CEFB]">
+              <div className="flex items-center gap-3 text-xs font-semibold uppercase tracking-[0.24em] text-brand">
                 <span>Selected Work</span>
-                <span className="h-px w-12 bg-[#64CEFB]/50" />
+                <span className="h-px w-12 bg-brand/50" />
                 <span>2021 — Now</span>
               </div>
               <h1 className="font-yahei mt-7 text-5xl font-bold leading-[0.98] tracking-[-0.055em] sm:text-7xl lg:text-[6.6rem]">
@@ -163,14 +163,14 @@ export function ProjectExperiencePage() {
                     </div>
                     {project.highlight && (
                       <div className="mt-9 border-t border-white/[0.08] pt-7">
-                        <p className="text-3xl font-semibold tracking-[-0.04em] text-[#B9EAFF]">{project.highlight}</p>
+                        <p className="text-3xl font-semibold tracking-[-0.04em] text-brand">{project.highlight}</p>
                         <p className="mt-2 text-xs text-white/32">{project.highlightLabel}</p>
                       </div>
                     )}
                   </div>
 
                   <div className="p-7 sm:p-9 lg:p-10 xl:p-12">
-                    <p className="text-[10px] font-semibold uppercase tracking-[0.23em] text-[#64CEFB]">{project.english}</p>
+                    <p className="text-[10px] font-semibold uppercase tracking-[0.23em] text-brand">{project.english}</p>
                     <h2 className="font-yahei mt-4 text-3xl font-bold tracking-[-0.035em] text-white sm:text-4xl lg:text-5xl">
                       {project.title}
                     </h2>
@@ -178,7 +178,7 @@ export function ProjectExperiencePage() {
 
                     <div className="mt-9 rounded-[20px] border border-white/[0.08] bg-black/20 px-5 py-5 sm:px-6">
                       <div className="flex items-start gap-3">
-                        <Target className="mt-0.5 h-4 w-4 shrink-0 text-[#64CEFB]" />
+                        <Target className="mt-0.5 h-4 w-4 shrink-0 text-brand" />
                         <div>
                           <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-white/28">核心挑战</p>
                           <p className="mt-2 text-sm leading-6 text-white/52">{project.challenge}</p>
@@ -193,7 +193,7 @@ export function ProjectExperiencePage() {
                         <ol className="mt-6 space-y-4">
                           {project.work.map((item, index) => (
                             <li key={item} className="flex gap-4 text-sm leading-6 text-white/43">
-                              <span className="mt-0.5 text-[10px] font-semibold tracking-[0.14em] text-[#64CEFB]">0{index + 1}</span>
+                              <span className="mt-0.5 text-[10px] font-semibold tracking-[0.14em] text-brand">0{index + 1}</span>
                               <span>{item}</span>
                             </li>
                           ))}
@@ -205,7 +205,7 @@ export function ProjectExperiencePage() {
                         <ul className="mt-6 space-y-4">
                           {project.results.map((item) => (
                             <li key={item} className="flex gap-4 text-sm leading-6 text-white/43">
-                              <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-[#64CEFB] shadow-[0_0_10px_rgba(100,206,251,0.55)]" />
+                              <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-brand shadow-[0_0_10px_rgba(0,85,255,0.5)]" />
                               <span>{item}</span>
                             </li>
                           ))}
@@ -230,7 +230,7 @@ export function ProjectExperiencePage() {
         <Reveal delay={0.12}>
           <div className="mt-16 flex flex-col items-start justify-between gap-7 border-t border-white/[0.1] pt-10 sm:flex-row sm:items-center lg:mt-20">
             <div>
-              <p className="text-[10px] font-semibold uppercase tracking-[0.23em] text-[#64CEFB]">Next</p>
+              <p className="text-[10px] font-semibold uppercase tracking-[0.23em] text-brand">Next</p>
               <p className="font-yahei mt-3 text-2xl font-bold text-white">继续了解我的设计能力与工作方法</p>
             </div>
             <a
@@ -305,7 +305,7 @@ function LiquidGlassCard({ id, accent, children }: { id: string; accent: string;
 function Meta({ icon, label, value }: { icon: ReactNode; label: string; value: string }) {
   return (
     <div className="flex gap-3">
-      <span className="mt-0.5 text-[#64CEFB]">{icon}</span>
+      <span className="mt-0.5 text-brand">{icon}</span>
       <div>
         <p className="text-[12px] font-semibold uppercase tracking-[0.12em] text-white/30">{label}</p>
         <p className="mt-1.5 text-[14px] leading-6 text-white/58">{value}</p>

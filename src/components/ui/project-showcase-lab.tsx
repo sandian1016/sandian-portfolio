@@ -52,7 +52,7 @@ const categories: Category[] = [
     outcome: '建立省市两级协同与全流程管理闭环',
     tags: ['多角色流程', '复杂表单', '组件规范'],
     icon: Layers3,
-    accent: '#64CEFB',
+    accent: 'rgba(0, 85, 255, 0.9)',
     href: '/?page=experience#load-platform',
   },
   {
@@ -109,7 +109,7 @@ export function ProjectShowcaseLab({ initialVariant = 'atlas' }: { initialVarian
       className="relative isolate min-h-screen scroll-mt-24 overflow-hidden border-t border-white/[0.08] bg-[#08080b] px-5 pb-24 pt-10 text-white sm:px-8 md:pb-28 lg:px-10 lg:pb-32"
     >
       <div
-        className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_10%_14%,rgba(100,206,251,0.09),transparent_28%),radial-gradient(circle_at_90%_80%,rgba(123,104,238,0.07),transparent_30%)]"
+        className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_10%_14%,rgba(0,85,255,0.09),transparent_28%),radial-gradient(circle_at_90%_80%,rgba(0,85,255,0.07),transparent_30%)]"
         aria-hidden="true"
       />
       <div className="relative mx-auto max-w-7xl">
@@ -123,7 +123,7 @@ export function ProjectShowcaseLab({ initialVariant = 'atlas' }: { initialVarian
                   key={item.id}
                   type="button"
                   onClick={() => setVariant(item.id)}
-                  className={`group rounded-[17px] px-5 py-4 text-left outline-none transition-all duration-300 focus-visible:ring-2 focus-visible:ring-[#64CEFB]/60 ${
+                  className={`group rounded-[17px] px-5 py-4 text-left outline-none transition-all duration-300 focus-visible:ring-2 focus-visible:ring-brand/60 ${
                     selected ? 'bg-white text-[#111016]' : 'bg-white/[0.02] text-white/52 hover:bg-white/[0.06] hover:text-white'
                   }`}
                   aria-pressed={selected}
@@ -167,11 +167,11 @@ export function ProjectArchiveSection() {
       className="relative isolate scroll-mt-24 overflow-hidden border-t border-white/[0.08] bg-[#08080b] px-5 pb-12 pt-20 text-white sm:px-8 md:pb-16 md:pt-28 lg:px-10 lg:pb-20 lg:pt-32"
     >
       <div
-        className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_10%_14%,rgba(100,206,251,0.09),transparent_28%),radial-gradient(circle_at_90%_80%,rgba(123,104,238,0.07),transparent_30%)]"
+        className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_10%_14%,rgba(0,85,255,0.09),transparent_28%),radial-gradient(circle_at_90%_80%,rgba(0,85,255,0.07),transparent_30%)]"
         aria-hidden="true"
       />
       <div
-        className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-[#64CEFB]/30 to-transparent"
+        className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-brand/30 to-transparent"
         aria-hidden="true"
       />
 
@@ -192,9 +192,9 @@ function SectionIntro({ compact = false }: { compact?: boolean }) {
   return (
     <div className={compact ? '' : 'grid gap-8 lg:grid-cols-[0.8fr_1.2fr] lg:items-end'}>
       <div>
-        <div className="flex items-center gap-3 text-[10px] font-semibold uppercase tracking-[0.26em] text-[#64CEFB]">
+        <div className="flex items-center gap-3 text-[10px] font-semibold uppercase tracking-[0.26em] text-brand">
           <span>02</span>
-          <span className="h-px w-10 bg-[#64CEFB]/45" />
+          <span className="h-px w-10 bg-brand/45" />
           <span>Selected Work</span>
         </div>
         <h1 className="font-yahei mt-5 text-5xl font-bold tracking-[-0.055em] text-white sm:text-6xl lg:text-7xl">项目分类</h1>
