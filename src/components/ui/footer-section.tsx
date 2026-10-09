@@ -43,24 +43,24 @@ export function Footer({ standalone = false }: { standalone?: boolean }) {
     standalone && href.startsWith('#') ? `/${href}` : href
 
   return (
-    <footer id="contact" ref={footerRef} className="zego-clone-footer">
-      <section className="zego-footer-cta">
-        <div className="zego-footer-cta__background" aria-hidden="true" />
-        <div className={`zego-footer-light ${isInView || reduceMotion ? 'is-active' : ''}`} aria-hidden="true">
+    <footer id="contact" ref={footerRef} className="portfolio-footer">
+      <section className="portfolio-footer-cta">
+        <div className="portfolio-footer-cta__background" aria-hidden="true" />
+        <div className={`portfolio-footer-light ${isInView || reduceMotion ? 'is-active' : ''}`} aria-hidden="true">
           <img src={`${assetRoot}/footer_light.png`} alt="" loading="lazy" decoding="async" />
         </div>
-        <div className="zego-footer-shell zego-footer-cta__inner">
-          <div className="zego-footer-cta__copy">
+        <div className="portfolio-footer-shell portfolio-footer-cta__inner">
+          <div className="portfolio-footer-cta__copy">
             <p>一起把复杂问题，</p>
             <p>设计得 <span>更简单</span>。</p>
-            <a href={resolveHref('#projects')} className="zego-footer-trial">查看作品 <ArrowRight aria-hidden="true" /></a>
+            <a href={resolveHref('#projects')} className="portfolio-footer-trial">查看作品 <ArrowRight aria-hidden="true" /></a>
           </div>
 
-          <div className="zego-footer-services" aria-label="设计方向">
+          <div className="portfolio-footer-services" aria-label="设计方向">
             {servicePoints.map((point, index) => (
               <div
                 key={point.label}
-                className="zego-footer-service"
+                className="portfolio-footer-service"
               >
                 <img src={point.iconSrc} alt="" loading="lazy" decoding="async" />
                 <span>{point.label}</span>
@@ -70,20 +70,20 @@ export function Footer({ standalone = false }: { standalone?: boolean }) {
         </div>
       </section>
 
-      <section className="zego-footer-information">
-        <div className="zego-footer-shell">
-          <div className="zego-footer-menu">
-            <div className="zego-footer-brand">
-              <a href={resolveHref('#home')} className="zego-footer-brand__identity" aria-label="Sandian design 返回首页">
+      <section className="portfolio-footer-information">
+        <div className="portfolio-footer-shell">
+          <div className="portfolio-footer-menu">
+            <div className="portfolio-footer-brand">
+              <a href={resolveHref('#home')} className="portfolio-footer-brand__identity" aria-label="Sandian design 返回首页">
                 <BrandLogo />
                 <span>Sandian design</span>
               </a>
               <p>专注复杂业务系统、数据可视化与全链路产品体验，用设计连接业务目标与真实用户。</p>
             </div>
 
-            <div className="zego-footer-columns">
+            <div className="portfolio-footer-columns">
               {footerSections.map((section) => (
-                <div className="zego-footer-column" key={section.label}>
+                <div className="portfolio-footer-column" key={section.label}>
                   <h3>{section.label}</h3>
                   <ul>
                     {section.links.map((link) => <li key={link.title}><a href={resolveHref(link.href)}>{link.title}</a></li>)}
@@ -92,17 +92,17 @@ export function Footer({ standalone = false }: { standalone?: boolean }) {
               ))}
             </div>
 
-            <div className="zego-footer-contact">
+            <div className="portfolio-footer-contact">
               <h3>关注或联系我</h3>
               <dl>
                 <div><dt>邮箱：</dt><dd><a href="mailto:sandian1016@gmail.com">sandian1016@gmail.com</a><a href="mailto:1270434903@qq.com">1270434903@qq.com</a></dd></div>
                 <div><dt>电话：</dt><dd><a href="tel:16651720602">16651720602</a><a href="tel:15862266874">15862266874</a></dd></div>
               </dl>
-              <p className="zego-footer-location"><MapPin aria-hidden="true" /> 南京 · UI/UX &amp; Product Designer</p>
+              <p className="portfolio-footer-location"><MapPin aria-hidden="true" /> 南京 · UI/UX &amp; Product Designer</p>
             </div>
           </div>
 
-          <div className="zego-footer-legal">
+          <div className="portfolio-footer-legal">
             <p>© {new Date().getFullYear()} Sandian design. All rights reserved.</p>
             <p>Designed with clarity, built with detail.</p>
           </div>

@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { Footer } from './footer-section'
+import { ProjectBackLink } from './project-back-link'
 import { ProjectImageLightbox } from './project-image-lightbox'
 
 type MobileProjectFrame = {
@@ -96,8 +97,9 @@ export function MobileProjectPage() {
   }, [])
 
   return (
-    <section className="relative h-svh overflow-hidden bg-[#151515] pt-[112px] md:pt-[128px]">
+    <section className="project-detail-page relative h-svh overflow-hidden bg-[#151515]">
       <aside className="web-project-sidebar" aria-label="移动端项目章节">
+        <ProjectBackLink />
         <nav className="web-project-sidebar__nav" aria-label="移动端作品目录" data-lenis-prevent>
           <ol>
             {mobileProjectFrames.map((frame) => (

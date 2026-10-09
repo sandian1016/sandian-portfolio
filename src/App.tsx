@@ -7,7 +7,7 @@ import {
 } from 'framer-motion'
 import Lenis from 'lenis'
 import 'lenis/dist/lenis.css'
-import { ChevronDown, Menu, X } from 'lucide-react'
+import { Menu, X } from 'lucide-react'
 import { type ReactNode, useEffect, useRef, useState } from 'react'
 import Galaxy from './components/Galaxy'
 import { AigcProjectPage } from './components/ui/aigc-project-page'
@@ -16,7 +16,6 @@ import { BrandLogo } from './components/ui/brand-logo'
 import { Footer } from './components/ui/footer-section'
 import { HeroCarousel } from './components/ui/hero-carousel'
 import { HomeProjectShowcase } from './components/ui/home-project-showcase'
-import { ProjectMenuPanel } from './components/ui/navbar-menu'
 import { MobileProjectPage } from './components/ui/mobile-project-page'
 import { ProjectExperiencePage } from './components/ui/project-experience-page'
 import {
@@ -39,7 +38,10 @@ function hasSeenOpeningSequence() {
 
 const navItems = [
   { label: '主页', href: '#home' },
-  { label: '项目分类', href: '#projects' },
+  { label: '移动端', href: '/?page=mobile-project' },
+  { label: 'WEB端', href: '/?page=web-project' },
+  { label: '可视化', href: '/?page=visualization-project' },
+  { label: 'AIGC设计', href: '/?page=aigc-project' },
   { label: '个人简介', href: '#about' },
   { label: '联系方式', href: '#contact' },
 ]
@@ -172,20 +174,19 @@ function Brand({ homeHref = '#home', light = false }: { homeHref?: string; light
   )
 }
 
-function Navigation({ standalone = false, lightGlass = false }: { standalone?: boolean; lightGlass?: boolean }) {
+function Navigation({ standalone = false, lightGlass: preferLightGlass = false }: { standalone?: boolean; lightGlass?: boolean }) {
   const [menuOpen, setMenuOpen] = useState(false)
-  const [projectMenuOpen, setProjectMenuOpen] = useState(false)
-  const [mobileProjectsOpen, setMobileProjectsOpen] = useState(false)
   const [scrolled, setScrolled] = useState(() => window.scrollY > 48)
+  const [overDarkSection, setOverDarkSection] = useState(false)
+  const lightGlass = preferLightGlass && !overDarkSection
   const standardNavItems = navItems.slice(0, -1)
   const contactItem = navItems[navItems.length - 1]
-  const resolveHref = (href: string) => (standalone ? `/${href}` : href)
+  const resolveHref = (href: string) => (standalone && href.startsWith('#') ? `/${href}` : href)
   const mobileLinkClass = lightGlass
     ? 'text-[#173149]/76 hover:bg-[#eaf6fc] hover:text-[#0b1f33]'
     : 'text-white/80 hover:bg-white/10 hover:text-white'
   const closeMobileMenu = () => {
     setMenuOpen(false)
-    setMobileProjectsOpen(false)
   }
 
   useEffect(() => {
@@ -195,6 +196,15 @@ function Navigation({ standalone = false, lightGlass = false }: { standalone?: b
       window.cancelAnimationFrame(frameId)
       frameId = window.requestAnimationFrame(() => {
         setScrolled(window.scrollY > 48)
+        if (preferLightGlass) {
+          const overDark = ['about', 'projects', 'contact'].some(id => {
+            const section = document.getElementById(id)
+            if (!section) return false
+            const bounds = section.getBoundingClientRect()
+            return bounds.top <= 92 && bounds.bottom > 20
+          })
+          setOverDarkSection(current => current === overDark ? current : overDark)
+        }
       })
     }
 
@@ -205,7 +215,7 @@ function Navigation({ standalone = false, lightGlass = false }: { standalone?: b
       window.cancelAnimationFrame(frameId)
       window.removeEventListener('scroll', updateNavigationWidth)
     }
-  }, [])
+  }, [preferLightGlass])
 
   return (
     <header className="fixed inset-x-0 top-0 z-40 px-5 pt-4 sm:px-8 md:pt-5 lg:px-10">
@@ -225,66 +235,19 @@ function Navigation({ standalone = false, lightGlass = false }: { standalone?: b
           <Brand homeHref={resolveHref('#home')} light={lightGlass} />
 
           <nav className="hidden items-center gap-1.5 lg:flex" aria-label="Primary navigation">
-            {standardNavItems.map((item) =>
-              item.href === '#projects' ? (
-                <div
-                  key={item.href}
-                  className="relative"
-                  onMouseEnter={() => setProjectMenuOpen(true)}
-                  onMouseLeave={() => setProjectMenuOpen(false)}
-                >
-                  <button
-                    type="button"
-                    onClick={() => setProjectMenuOpen((open) => !open)}
-                    className={`flex items-center gap-1.5 rounded-xl px-4 py-3 text-sm font-medium transition-all duration-300 ${
-                      lightGlass
-                        ? projectMenuOpen
-                          ? 'bg-white/55 text-[#102235]'
-                          : 'text-[#173149]/65 hover:bg-white/45 hover:text-[#102235]'
-                        : projectMenuOpen
-                          ? 'bg-white/[0.07] text-white'
-                          : 'text-white/55 hover:bg-white/[0.06] hover:text-white'
-                    }`}
-                    aria-expanded={projectMenuOpen}
-                    aria-haspopup="true"
-                  >
-                    {item.label}
-                    <ChevronDown
-                      className={`h-3.5 w-3.5 transition-transform duration-300 ${projectMenuOpen ? 'rotate-180' : ''}`}
-                    />
-                  </button>
-
-                  <AnimatePresence>
-                    {projectMenuOpen && (
-                      <motion.div
-                        initial={{ opacity: 0, y: 10, scale: 0.98 }}
-                        animate={{ opacity: 1, y: 0, scale: 1 }}
-                        exit={{ opacity: 0, y: 8, scale: 0.985 }}
-                        transition={{ duration: 0.24, ease: [0.22, 1, 0.36, 1] }}
-                        className="absolute right-[-12rem] top-[calc(100%+14px)] pt-2"
-                      >
-                        <ProjectMenuPanel
-                          theme={lightGlass ? 'light' : 'dark'}
-                          onNavigate={() => setProjectMenuOpen(false)}
-                        />
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-                </div>
-              ) : (
-                <a
-                  key={item.href}
-                  href={resolveHref(item.href)}
-                  className={`rounded-xl px-4 py-3 text-sm font-medium transition-all duration-300 ${
-                    lightGlass
-                      ? 'text-[#173149]/65 hover:bg-white/45 hover:text-[#102235]'
-                      : 'text-white/55 hover:bg-white/[0.06] hover:text-white'
-                  }`}
-                >
-                  {item.label}
-                </a>
-              ),
-            )}
+            {standardNavItems.map((item) => (
+              <a
+                key={item.href}
+                href={resolveHref(item.href)}
+                className={`whitespace-nowrap rounded-xl px-3 py-3 text-sm font-medium transition-all duration-300 ${
+                  lightGlass
+                    ? 'text-[#173149]/65 hover:bg-white/45 hover:text-[#102235]'
+                    : 'text-white/55 hover:bg-white/[0.06] hover:text-white'
+                }`}
+              >
+                {item.label}
+              </a>
+            ))}
             <a
               href={resolveHref(contactItem.href)}
               className={`ml-2 rounded-[14px] px-6 py-3 text-sm font-semibold transition-all duration-300 hover:-translate-y-0.5 ${
@@ -327,45 +290,16 @@ function Navigation({ standalone = false, lightGlass = false }: { standalone?: b
             }`}
             aria-label="Mobile navigation"
           >
-            {navItems.map((item) =>
-              item.href === '#projects' ? (
-                <div key={item.href}>
-                  <button
-                    type="button"
-                    onClick={() => setMobileProjectsOpen((open) => !open)}
-                    className={`flex w-full items-center justify-between rounded-2xl px-4 py-3 text-sm transition-colors duration-300 ${mobileLinkClass}`}
-                    aria-expanded={mobileProjectsOpen}
-                  >
-                    {item.label}
-                    <ChevronDown
-                      className={`h-4 w-4 transition-transform duration-300 ${mobileProjectsOpen ? 'rotate-180' : ''}`}
-                    />
-                  </button>
-                  <AnimatePresence>
-                    {mobileProjectsOpen && (
-                      <motion.div
-                        initial={{ height: 0, opacity: 0 }}
-                        animate={{ height: 'auto', opacity: 1 }}
-                        exit={{ height: 0, opacity: 0 }}
-                        transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-                        className="overflow-hidden"
-                      >
-                        <ProjectMenuPanel compact theme={lightGlass ? 'light' : 'dark'} onNavigate={closeMobileMenu} />
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-                </div>
-              ) : (
-                <a
-                  key={item.href}
-                  href={resolveHref(item.href)}
-                  onClick={closeMobileMenu}
-                  className={`block rounded-2xl px-4 py-3 text-sm transition-colors duration-300 ${mobileLinkClass}`}
-                >
-                  {item.label}
-                </a>
-              ),
-            )}
+            {navItems.map((item) => (
+              <a
+                key={item.href}
+                href={resolveHref(item.href)}
+                onClick={closeMobileMenu}
+                className={`block rounded-2xl px-4 py-3 text-sm transition-colors duration-300 ${mobileLinkClass}`}
+              >
+                {item.label}
+              </a>
+            ))}
           </motion.nav>
         )}
       </AnimatePresence>
@@ -421,6 +355,7 @@ function App() {
   const isStandalonePage = aboutPreviewMode || projectExperienceMode || projectPreviewMode || webProjectMode || mobileProjectMode || visualizationProjectMode || aigcProjectMode
   const [introVisible, setIntroVisible] = useState(() => !isStandalonePage && !hasSeenOpeningSequence())
   const heroRef = useRef<HTMLElement>(null)
+  const lenisRef = useRef<Lenis | null>(null)
   const reducePageMotion = useReducedMotion()
   const { scrollYProgress: heroScrollProgress } = useScroll({
     target: heroRef,
@@ -431,7 +366,7 @@ function App() {
   const heroContentOpacity = useTransform(heroScrollProgress, [0, 0.55, 1], [1, 0.96, 0.78])
 
   useEffect(() => {
-    if (webProjectMode || mobileProjectMode || visualizationProjectMode || aigcProjectMode) return
+    if (isStandalonePage) return
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
 
     const lenis = new Lenis({
@@ -446,32 +381,47 @@ function App() {
       },
     })
 
-    return () => lenis.destroy()
-  }, [aigcProjectMode, mobileProjectMode, visualizationProjectMode, webProjectMode])
+    lenisRef.current = lenis
+
+    return () => {
+      lenisRef.current = null
+      lenis.destroy()
+    }
+  }, [isStandalonePage])
 
   useEffect(() => {
-    const shouldReturnHome = window.location.hash === '' || window.location.hash === '#home'
-    if (!shouldReturnHome) return
+    if (isStandalonePage) return
 
     const previousScrollRestoration = window.history.scrollRestoration
     window.history.scrollRestoration = 'manual'
 
-    const returnToTop = () => {
-      window.scrollTo({ top: 0, left: 0, behavior: 'auto' })
+    const positionAtSection = () => {
+      const sectionId = window.location.hash.slice(1) || 'home'
+      if (!['home', 'about', 'projects', 'contact'].includes(sectionId)) return
+      const section = document.getElementById(sectionId)
+      if (!section) return
+
+      const offset = sectionId === 'home' ? 0 : 104
+      const top = Math.max(0, window.scrollY + section.getBoundingClientRect().top - offset)
+      if (lenisRef.current) {
+        lenisRef.current.resize()
+        lenisRef.current.scrollTo(top, { immediate: true })
+      } else {
+        window.scrollTo({ top, left: 0, behavior: 'instant' })
+      }
     }
 
-    returnToTop()
-    const animationFrame = window.requestAnimationFrame(returnToTop)
-    const timer = window.setTimeout(returnToTop, 80)
-    window.addEventListener('pageshow', returnToTop)
+    const animationFrame = window.requestAnimationFrame(positionAtSection)
+    const timer = window.setTimeout(positionAtSection, 80)
+    window.addEventListener('pageshow', positionAtSection)
 
     return () => {
       window.cancelAnimationFrame(animationFrame)
       window.clearTimeout(timer)
-      window.removeEventListener('pageshow', returnToTop)
+      window.removeEventListener('pageshow', positionAtSection)
       window.history.scrollRestoration = previousScrollRestoration
     }
-  }, [])
+  }, [isStandalonePage])
 
   useEffect(() => {
     try {
@@ -489,8 +439,8 @@ function App() {
 
   if (aboutPreviewMode) {
     return (
-      <main className="min-h-screen bg-[#f8fbfd] font-sans text-[#0b1f33]">
-        <Navigation lightGlass />
+      <main className="min-h-screen bg-[#050505] font-sans text-[#e7e7ed]">
+        <Navigation />
         <div className="h-[92px] md:h-[96px]" aria-hidden="true" />
         <AboutSection previewMode />
       </main>

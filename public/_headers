@@ -8,7 +8,7 @@
 /projects/*
   Cache-Control: public, max-age=604800, stale-while-revalidate=86400
 
-/tencent-hero/*
+/home-hero/*
   Cache-Control: public, max-age=604800, stale-while-revalidate=86400
 
 /footer/*

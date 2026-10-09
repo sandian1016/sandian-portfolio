@@ -17,7 +17,6 @@ interface HeroSlide {
   mobileMediaClass: string
 }
 
-/* Source-derived copy and locally stored media from the Tencent Cloud home hero. */
 const SLIDES: HeroSlide[] = [
   {
     id: 'ai-renew',
@@ -26,8 +25,8 @@ const SLIDES: HeroSlide[] = [
     mobileTitleSegments: ['用 AI 缩短', '从想法到体验的距离'],
     description: '将 AIGC 与 AI 编程融入设计探索和原型搭建，让创意更快转化为可交互、可验证的产品体验。',
     cta: '立即查看',
-    poster: '/tencent-hero/ai-renew.jpg',
-    video: '/tencent-hero/ai-renew.mp4',
+    poster: '/home-hero/ai-renew.jpg',
+    video: '/home-hero/ai-renew.mp4',
     mobileMediaClass: 'object-[82%_center] md:object-center',
   },
   {
@@ -37,8 +36,8 @@ const SLIDES: HeroSlide[] = [
     mobileTitleSegments: ['在复杂业务中', '建立清晰的管理判断'],
     description: '面向多角色、多层级协同场景，梳理信息架构与关键任务链路，让状态、风险与下一步动作保持清晰可见。',
     cta: '立即查看',
-    poster: '/tencent-hero/lighthouse.jpg',
-    video: '/tencent-hero/lighthouse.mp4',
+    poster: '/home-hero/lighthouse.jpg',
+    video: '/home-hero/lighthouse.mp4',
     mobileMediaClass: 'object-[78%_center] md:object-center',
   },
   {
@@ -48,8 +47,8 @@ const SLIDES: HeroSlide[] = [
     mobileTitleSegments: ['让长流程任务', '在移动场景中自然完成'],
     description: '把专业字段与复杂流程拆解为轻量步骤，支持随时保存、继续填写与清晰的任务进度反馈。',
     cta: '立即查看',
-    poster: '/tencent-hero/adp.jpg',
-    video: '/tencent-hero/adp.mp4',
+    poster: '/home-hero/adp.jpg',
+    video: '/home-hero/adp.mp4',
     mobileMediaClass: 'object-[84%_center] md:object-center',
   },
 ]
@@ -80,7 +79,7 @@ export function HeroCarousel({ introVisible }: { introVisible: boolean }) {
       className="relative h-full w-full overflow-hidden"
       role="region"
       aria-roledescription="carousel"
-      aria-label="腾讯云首页动态 Banner"
+      aria-label="作品集首页项目轮播"
     >
       <AnimatePresence initial={false} mode="sync">
         <motion.div

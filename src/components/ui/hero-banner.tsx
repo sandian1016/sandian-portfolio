@@ -108,7 +108,7 @@ export function HeroBanner({ accent = 'sky', badge = 'SD' }: HeroBannerProps) {
         {/* Radial glow background */}
         <div className={`absolute inset-0 rounded-[40px] blur-[2px] ${t.glow}`} />
 
-        {/* Concentric soft rings (ZEGO-ish floor) */}
+        {/* Concentric soft rings */}
         <div className={`absolute bottom-[8%] left-1/2 h-[20%] w-[72%] -translate-x-1/2 rounded-[50%] bg-gradient-to-b blur-2xl ${t.floor}`} />
         <div className="absolute bottom-[5%] left-1/2 h-[10%] w-[52%] -translate-x-1/2 rounded-[50%] bg-white/60 blur-xl" />
 
