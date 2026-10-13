@@ -15,6 +15,7 @@ import { AboutSection } from './components/ui/about-section'
 import { BrandLogo } from './components/ui/brand-logo'
 import { Footer } from './components/ui/footer-section'
 import { HeroCarousel } from './components/ui/hero-carousel'
+import { HmiCockpitProjectPage } from './components/ui/hmi-cockpit-project-page'
 import { HomeProjectShowcase } from './components/ui/home-project-showcase'
 import { MobileProjectPage } from './components/ui/mobile-project-page'
 import { ProjectExperiencePage } from './components/ui/project-experience-page'
@@ -41,6 +42,7 @@ const navItems = [
   { label: '移动端', href: '/?page=mobile-project' },
   { label: 'WEB端', href: '/?page=web-project' },
   { label: '可视化', href: '/?page=visualization-project' },
+  { label: 'HMI智能座舱', href: '/?page=hmi-cockpit' },
   { label: 'AIGC设计', href: '/?page=aigc-project' },
   { label: '个人简介', href: '#about' },
   { label: '联系方式', href: '#contact' },
@@ -222,7 +224,7 @@ function Navigation({ standalone = false, lightGlass: preferLightGlass = false }
       <motion.div
         className="mx-auto w-full"
         initial={false}
-        animate={{ maxWidth: scrolled ? 1200 : 980 }}
+        animate={{ maxWidth: scrolled ? 1280 : 1120 }}
         transition={{ type: 'spring', stiffness: 170, damping: 24, mass: 0.72 }}
       >
         <div
@@ -234,7 +236,7 @@ function Navigation({ standalone = false, lightGlass: preferLightGlass = false }
         >
           <Brand homeHref={resolveHref('#home')} light={lightGlass} />
 
-          <nav className="hidden items-center gap-1.5 lg:flex" aria-label="Primary navigation">
+          <nav className="hidden items-center gap-1.5 xl:flex" aria-label="Primary navigation">
             {standardNavItems.map((item) => (
               <a
                 key={item.href}
@@ -263,7 +265,7 @@ function Navigation({ standalone = false, lightGlass: preferLightGlass = false }
           <button
             type="button"
             onClick={() => setMenuOpen((open) => !open)}
-            className={`grid h-11 w-11 place-items-center rounded-[14px] border transition-colors duration-300 lg:hidden ${
+            className={`grid h-11 w-11 place-items-center rounded-[14px] border transition-colors duration-300 xl:hidden ${
               lightGlass
                 ? 'border-[#173149]/15 bg-white/38 text-[#102235] hover:bg-white/60'
                 : 'border-white/15 bg-white/[0.06] text-white hover:bg-white/10'
@@ -283,7 +285,7 @@ function Navigation({ standalone = false, lightGlass: preferLightGlass = false }
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -12 }}
             transition={{ duration: 0.22 }}
-            className={`absolute left-5 right-5 top-[6.25rem] max-h-[calc(100vh-7.5rem)] overflow-y-auto rounded-[22px] p-3 backdrop-blur-2xl sm:left-8 sm:right-8 lg:hidden ${
+            className={`absolute left-5 right-5 top-[6.25rem] max-h-[calc(100vh-7.5rem)] overflow-y-auto rounded-[22px] p-3 backdrop-blur-2xl sm:left-8 sm:right-8 xl:hidden ${
               lightGlass
                 ? 'border border-white/70 bg-white/92 shadow-[0_20px_60px_rgba(39,94,126,0.18)]'
                 : 'border border-white/20 bg-[#17151f]/95 shadow-2xl'
@@ -347,12 +349,13 @@ function App() {
   const webProjectMode = searchParams.get('page') === 'web-project'
   const mobileProjectMode = searchParams.get('page') === 'mobile-project'
   const visualizationProjectMode = searchParams.get('page') === 'visualization-project'
+  const hmiCockpitProjectMode = searchParams.get('page') === 'hmi-cockpit'
   const aigcProjectMode = searchParams.get('page') === 'aigc-project'
   const projectPreviewParam = searchParams.get('projectPreview')
   const projectPreviewMode = projectPreviewParam === '1' || projectPreviewParam === '2' || projectPreviewParam === '3'
   const projectPreviewVariant: ShowcaseVariant =
     projectPreviewParam === '2' ? 'stage' : projectPreviewParam === '3' ? 'archive' : 'atlas'
-  const isStandalonePage = aboutPreviewMode || projectExperienceMode || projectPreviewMode || webProjectMode || mobileProjectMode || visualizationProjectMode || aigcProjectMode
+  const isStandalonePage = aboutPreviewMode || projectExperienceMode || projectPreviewMode || webProjectMode || mobileProjectMode || visualizationProjectMode || hmiCockpitProjectMode || aigcProjectMode
   const [introVisible, setIntroVisible] = useState(() => !isStandalonePage && !hasSeenOpeningSequence())
   const heroRef = useRef<HTMLElement>(null)
   const lenisRef = useRef<Lenis | null>(null)
@@ -475,6 +478,17 @@ function App() {
         <Navigation standalone />
         <ProjectPageEntrance className="h-full">
           <VisualizationProjectPage />
+        </ProjectPageEntrance>
+      </main>
+    )
+  }
+
+  if (hmiCockpitProjectMode) {
+    return (
+      <main className="h-svh overflow-hidden bg-[#151515] font-sans text-white">
+        <Navigation standalone />
+        <ProjectPageEntrance className="h-full">
+          <HmiCockpitProjectPage />
         </ProjectPageEntrance>
       </main>
     )

@@ -757,6 +757,25 @@ a {
 .project-gallery-card__cta svg { transition: transform .3s ease; }
 .project-gallery-card.is-active .project-gallery-card__cta svg { transform: translateX(3px); }
 .project-gallery-card:focus-visible { outline: 2px solid var(--project-accent); outline-offset: 4px; }
+.project-gallery__item.is-featured { grid-column: 1 / -1; }
+.project-gallery__item.is-featured .project-gallery-card {
+  display: grid;
+  grid-template-columns: minmax(220px, .36fr) minmax(0, 1fr);
+  grid-template-rows: 1fr auto;
+  align-items: center;
+  column-gap: clamp(32px, 4vw, 64px);
+  min-height: 480px;
+  background: #0c0c0f;
+  box-shadow: 0 24px 60px rgba(0,0,0,.28);
+}
+.project-gallery__item.is-featured .project-gallery-card__copy { grid-column: 1; grid-row: 1; align-self: end; }
+.project-gallery__item.is-featured .project-gallery-card h3 { margin-top: 28px; font-size: clamp(30px, 2.6vw, 40px); text-wrap: balance; }
+.project-gallery__item.is-featured .project-gallery-card__media { grid-column: 2; grid-row: 1 / span 2; margin-top: 0; }
+.project-gallery__item.is-featured .project-gallery-card__cta { grid-column: 1; grid-row: 2; align-self: start; }
+@media (min-width: 768px) and (max-width: 1023px) {
+  .project-gallery__item.is-featured .project-gallery-card { grid-template-columns: minmax(180px, .32fr) minmax(0, 1fr); column-gap: 24px; min-height: 360px; padding: 24px; }
+  .project-gallery__item.is-featured .project-gallery-card h3 { font-size: 28px; }
+}
 @media (max-width: 767px) {
   .project-gallery { padding: 72px 20px 80px; }
   .project-gallery__intro { padding: 0 4px; margin-bottom: 32px; }
@@ -764,6 +783,11 @@ a {
   .project-gallery-card { padding: 20px 4px; }
   .project-gallery-card h3 { font-size: 24px; margin-top: 20px; }
   .project-gallery-card__media { margin-top: 24px; border-radius: 24px; }
+  .project-gallery__item.is-featured { grid-column: auto; }
+  .project-gallery__item.is-featured .project-gallery-card { display: flex; min-height: 0; padding: 20px 4px; background: transparent; box-shadow: none; }
+  .project-gallery__item.is-featured .project-gallery-card__copy { align-self: stretch; }
+  .project-gallery__item.is-featured .project-gallery-card h3 { margin-top: 20px; font-size: 24px; }
+  .project-gallery__item.is-featured .project-gallery-card__media { margin-top: 24px; }
 }
 @media (prefers-reduced-motion: reduce) {
   .project-gallery-card, .project-gallery-card__media img, .project-gallery-card__cta svg { transition: none; }

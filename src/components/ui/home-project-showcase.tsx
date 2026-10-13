@@ -1,4 +1,4 @@
-import { type LucideIcon, ArrowRight, BarChart3, MonitorCog, Smartphone, Sparkles } from 'lucide-react'
+import { type LucideIcon, ArrowRight, BarChart3, CarFront, MonitorCog, Smartphone, Sparkles } from 'lucide-react'
 import { type MotionStyle, motion, useMotionValue, useReducedMotion, useSpring } from 'framer-motion'
 import { type PointerEvent, useState } from 'react'
 
@@ -12,9 +12,21 @@ type HomeProject = {
   imageAlt: string
   accent: string
   imagePosition?: string
+  featured?: boolean
 }
 
 const projects: HomeProject[] = [
+  {
+    id: 'hmi-cockpit',
+    title: 'HMI智能座舱设计',
+    category: 'HMI & Intelligent Cockpit',
+    href: '/?page=hmi-cockpit',
+    icon: CarFront,
+    image: '/projects/hmi-cockpit/hmi-frame-01.webp',
+    imageAlt: 'XIAOMI SU7 智能座舱概念设计封面',
+    accent: '#70A7FF',
+    featured: true,
+  },
   {
     id: 'mobile-app',
     title: '移动端 APP 设计',
@@ -75,11 +87,11 @@ export function HomeProjectShowcase() {
           {projects.map((project, index) => (
             <motion.article
               key={project.id}
-              className="project-gallery__item"
+              className={`project-gallery__item${project.featured ? ' is-featured' : ''}`}
               initial={reduceMotion ? false : { opacity: 0, y: 24 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.15 }}
-              transition={{ duration: 0.6, delay: index % 2 * 0.08, ease }}
+              transition={{ duration: 0.6, delay: project.featured ? 0 : (index - 1) % 2 * 0.08, ease }}
             >
               <ProjectGalleryCard
                 project={project}
@@ -139,7 +151,7 @@ function ProjectGalleryCard({ project, active, subdued, onActivate, onDeactivate
       className={`project-gallery-card${active ? ' is-active' : ''}`}
       aria-label={`查看${project.title}项目详情`}
       style={{ '--project-accent': project.accent, x, y, rotateX, rotateY, transformPerspective: 1400 } as MotionStyle}
-      animate={{ scale: reduceMotion ? 1 : active ? 1.055 : subdued ? 0.96 : 1 }}
+      animate={{ scale: reduceMotion ? 1 : active ? (project.featured ? 1.025 : 1.055) : subdued ? 0.96 : 1 }}
       transition={{ type: 'spring', stiffness: 180, damping: 24 }}
       onPointerEnter={event => { if (event.pointerType === 'mouse') onActivate() }}
       onPointerMove={trackPointer}
