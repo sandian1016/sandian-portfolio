@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { Footer } from './footer-section'
 import { ProjectBackLink } from './project-back-link'
 import { ProjectImageLightbox } from './project-image-lightbox'
+import { useChapterNavFollow } from './use-chapter-nav-follow'
 
 type WebProjectFrame = {
   id: string
@@ -99,6 +100,7 @@ export function WebProjectPage() {
   const [activeSectionId, setActiveSectionId] = useState('web-project-cover')
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null)
   const scrollContainerRef = useRef<HTMLDivElement>(null)
+  const chapterNavigationRef = useChapterNavFollow(activeSectionId)
 
   useEffect(() => {
     const previousHtmlOverflow = document.documentElement.style.overflow
@@ -163,7 +165,7 @@ export function WebProjectPage() {
         aria-label="WEB 端项目章节"
       >
         <ProjectBackLink />
-        <nav className="web-project-sidebar__nav" aria-label="WEB 端作品目录" data-lenis-prevent>
+        <nav ref={chapterNavigationRef} className="web-project-sidebar__nav" aria-label="WEB 端作品目录" data-lenis-prevent>
           <ol>
             {webProjectFrames.map((frame) => (
               <li key={frame.id}>

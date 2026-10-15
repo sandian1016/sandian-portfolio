@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { Footer } from './footer-section'
 import { ProjectBackLink } from './project-back-link'
 import { ProjectImageLightbox } from './project-image-lightbox'
+import { useChapterNavFollow } from './use-chapter-nav-follow'
 
 type AigcProjectFrame = {
   id: string
@@ -51,6 +52,7 @@ export function AigcProjectPage() {
   const [activeSectionId, setActiveSectionId] = useState('aigc-visual-collection')
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null)
   const scrollContainerRef = useRef<HTMLDivElement>(null)
+  const chapterNavigationRef = useChapterNavFollow(activeSectionId)
 
   useEffect(() => {
     const previousHtmlOverflow = document.documentElement.style.overflow
@@ -111,7 +113,7 @@ export function AigcProjectPage() {
     <section className="project-detail-page relative h-svh overflow-hidden bg-[#151515]">
       <aside className="web-project-sidebar" aria-label="AIGC 项目章节">
         <ProjectBackLink />
-        <nav className="web-project-sidebar__nav" aria-label="AIGC 作品目录" data-lenis-prevent>
+        <nav ref={chapterNavigationRef} className="web-project-sidebar__nav" aria-label="AIGC 作品目录" data-lenis-prevent>
           <ol>
             {aigcProjectFrames.map((frame) => (
               <li key={frame.id}>

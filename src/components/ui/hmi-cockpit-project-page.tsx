@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { Footer } from './footer-section'
 import { ProjectBackLink } from './project-back-link'
 import { ProjectImageLightbox } from './project-image-lightbox'
+import { useChapterNavFollow } from './use-chapter-nav-follow'
 
 type HmiProjectGroup = {
   id: string
@@ -47,10 +48,13 @@ const hmiProjectFrames: HmiProjectFrame[] = Array.from({ length: 29 }, (_, index
   }
 })
 
+const hmiHeroVideo = '/projects/hmi-cockpit/hmi-hero-motion.mp4'
+
 export function HmiCockpitProjectPage() {
   const [activeGroupId, setActiveGroupId] = useState(hmiProjectGroups[0].id)
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null)
   const scrollContainerRef = useRef<HTMLDivElement>(null)
+  const chapterNavigationRef = useChapterNavFollow(activeGroupId)
 
   useEffect(() => {
     const previousHtmlOverflow = document.documentElement.style.overflow
@@ -107,7 +111,7 @@ export function HmiCockpitProjectPage() {
     <section className="project-detail-page relative h-svh overflow-hidden bg-[#151515]">
       <aside className="web-project-sidebar" aria-label="HMI 智能座舱设计项目章节">
         <ProjectBackLink />
-        <nav className="web-project-sidebar__nav" aria-label="HMI 智能座舱作品目录" data-lenis-prevent>
+        <nav ref={chapterNavigationRef} className="web-project-sidebar__nav" aria-label="HMI 智能座舱作品目录" data-lenis-prevent>
           <ol>
             {hmiProjectGroups.map((group) => {
               const targetFrameId = hmiProjectFrames[group.startFrame - 1].id
@@ -148,16 +152,33 @@ export function HmiCockpitProjectPage() {
               aria-label={`放大查看：${frame.alt}`}
               onClick={() => setLightboxIndex(index)}
             >
-              <img
-                src={frame.src}
-                alt={frame.alt}
-                width={frame.width}
-                height={frame.height}
-                loading={index === 0 ? 'eager' : 'lazy'}
-                fetchPriority={index === 0 ? 'high' : 'auto'}
-                decoding="async"
-                className="block h-auto w-full object-contain transition-opacity duration-200 group-hover:opacity-95"
-              />
+              {index === 0 ? (
+                <video
+                  src={hmiHeroVideo}
+                  poster={frame.src}
+                  width={frame.width}
+                  height={frame.height}
+                  autoPlay
+                  loop
+                  muted
+                  playsInline
+                  preload="auto"
+                  aria-hidden="true"
+                  tabIndex={-1}
+                  className="block aspect-video h-auto w-full object-cover transition-opacity duration-200 group-hover:opacity-95"
+                />
+              ) : (
+                <img
+                  src={frame.src}
+                  alt={frame.alt}
+                  width={frame.width}
+                  height={frame.height}
+                  loading="lazy"
+                  fetchPriority="auto"
+                  decoding="async"
+                  className="block h-auto w-full object-contain transition-opacity duration-200 group-hover:opacity-95"
+                />
+              )}
             </button>
           </figure>
         ))}

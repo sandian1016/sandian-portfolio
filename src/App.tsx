@@ -7,7 +7,7 @@ import {
 } from 'framer-motion'
 import Lenis from 'lenis'
 import 'lenis/dist/lenis.css'
-import { Menu, X } from 'lucide-react'
+import { ChevronDown, Menu, X } from 'lucide-react'
 import { type ReactNode, useEffect, useRef, useState } from 'react'
 import Galaxy from './components/Galaxy'
 import { AigcProjectPage } from './components/ui/aigc-project-page'
@@ -19,6 +19,11 @@ import { HmiCockpitProjectPage } from './components/ui/hmi-cockpit-project-page'
 import { HomeProjectShowcase } from './components/ui/home-project-showcase'
 import { MobileProjectPage } from './components/ui/mobile-project-page'
 import { ProjectExperiencePage } from './components/ui/project-experience-page'
+import {
+  FireVisualizationProjectPage,
+  SmartSiteProjectPage,
+  StateGridPortalProjectPage,
+} from './components/ui/supplemental-project-pages'
 import {
   ProjectShowcaseLab,
   type ShowcaseVariant,
@@ -37,11 +42,35 @@ function hasSeenOpeningSequence() {
   }
 }
 
-const navItems = [
+type NavigationItem = {
+  label: string
+  href?: string
+  children?: { label: string; href: string }[]
+}
+
+const navItems: NavigationItem[] = [
   { label: '主页', href: '#home' },
-  { label: '移动端', href: '/?page=mobile-project' },
-  { label: 'WEB端', href: '/?page=web-project' },
-  { label: '可视化', href: '/?page=visualization-project' },
+  {
+    label: '移动端',
+    children: [
+      { label: '酷潮移动端 APP', href: '/?page=mobile-project' },
+      { label: '智慧工地 APP', href: '/?page=mobile-smart-site' },
+    ],
+  },
+  {
+    label: 'WEB端',
+    children: [
+      { label: '工业物联网安全生产平台', href: '/?page=web-project' },
+      { label: '国网电动企业门户网站', href: '/?page=web-state-grid' },
+    ],
+  },
+  {
+    label: '可视化',
+    children: [
+      { label: '智慧城市运营中心', href: '/?page=visualization-project' },
+      { label: '智慧消防平台', href: '/?page=visualization-fire' },
+    ],
+  },
   { label: 'HMI智能座舱', href: '/?page=hmi-cockpit' },
   { label: 'AIGC设计', href: '/?page=aigc-project' },
   { label: '个人简介', href: '#about' },
@@ -178,6 +207,8 @@ function Brand({ homeHref = '#home', light = false }: { homeHref?: string; light
 
 function Navigation({ standalone = false, lightGlass: preferLightGlass = false }: { standalone?: boolean; lightGlass?: boolean }) {
   const [menuOpen, setMenuOpen] = useState(false)
+  const [desktopMenuOpen, setDesktopMenuOpen] = useState<string | null>(null)
+  const [mobileCategoryOpen, setMobileCategoryOpen] = useState<string | null>(null)
   const [scrolled, setScrolled] = useState(() => window.scrollY > 48)
   const [overDarkSection, setOverDarkSection] = useState(false)
   const lightGlass = preferLightGlass && !overDarkSection
@@ -189,6 +220,7 @@ function Navigation({ standalone = false, lightGlass: preferLightGlass = false }
     : 'text-white/80 hover:bg-white/10 hover:text-white'
   const closeMobileMenu = () => {
     setMenuOpen(false)
+    setMobileCategoryOpen(null)
   }
 
   useEffect(() => {
@@ -237,21 +269,89 @@ function Navigation({ standalone = false, lightGlass: preferLightGlass = false }
           <Brand homeHref={resolveHref('#home')} light={lightGlass} />
 
           <nav className="hidden items-center gap-1.5 xl:flex" aria-label="Primary navigation">
-            {standardNavItems.map((item) => (
-              <a
-                key={item.href}
-                href={resolveHref(item.href)}
-                className={`whitespace-nowrap rounded-xl px-3 py-3 text-sm font-medium transition-all duration-300 ${
-                  lightGlass
-                    ? 'text-[#173149]/65 hover:bg-white/45 hover:text-[#102235]'
-                    : 'text-white/55 hover:bg-white/[0.06] hover:text-white'
-                }`}
-              >
-                {item.label}
-              </a>
-            ))}
+            {standardNavItems.map((item) => {
+              const itemClass = `whitespace-nowrap rounded-xl px-3 py-3 text-sm font-medium transition-all duration-300 ${
+                lightGlass
+                  ? 'text-[#173149]/65 hover:bg-white/45 hover:text-[#102235]'
+                  : 'text-white/55 hover:bg-white/[0.06] hover:text-white'
+              }`
+
+              if (!item.children) {
+                return (
+                  <a key={item.label} href={resolveHref(item.href ?? '#home')} className={itemClass}>
+                    {item.label}
+                  </a>
+                )
+              }
+
+              const expanded = desktopMenuOpen === item.label
+              return (
+                <div
+                  key={item.label}
+                  className="relative"
+                  onMouseEnter={() => setDesktopMenuOpen(item.label)}
+                  onMouseLeave={() => setDesktopMenuOpen(null)}
+                  onBlur={(event) => {
+                    if (!event.currentTarget.contains(event.relatedTarget)) setDesktopMenuOpen(null)
+                  }}
+                  onKeyDown={(event) => {
+                    if (event.key === 'Escape') {
+                      setDesktopMenuOpen(null)
+                      event.currentTarget.querySelector<HTMLButtonElement>('button')?.focus()
+                    }
+                  }}
+                >
+                  <button
+                    type="button"
+                    className={`${itemClass} flex items-center gap-1`}
+                    aria-haspopup="menu"
+                    aria-expanded={expanded}
+                    onClick={() => setDesktopMenuOpen(expanded ? null : item.label)}
+                    onFocus={() => setDesktopMenuOpen(item.label)}
+                  >
+                    {item.label}
+                    <ChevronDown
+                      className={`h-3.5 w-3.5 transition-transform duration-200 ${expanded ? 'rotate-180' : ''}`}
+                      aria-hidden="true"
+                    />
+                  </button>
+
+                  <AnimatePresence>
+                    {expanded && (
+                      <motion.div
+                        initial={{ opacity: 0, y: -6, scale: 0.98 }}
+                        animate={{ opacity: 1, y: 0, scale: 1 }}
+                        exit={{ opacity: 0, y: -6, scale: 0.98 }}
+                        transition={{ duration: 0.16 }}
+                        className={`absolute left-1/2 top-[calc(100%+10px)] w-[272px] -translate-x-1/2 rounded-[18px] border p-2 backdrop-blur-2xl ${
+                          lightGlass
+                            ? 'border-white/80 bg-white/95 shadow-[0_22px_60px_rgba(39,94,126,0.18)]'
+                            : 'border-white/[0.14] bg-[#17151f]/95 shadow-[0_22px_70px_rgba(0,0,0,0.52)]'
+                        }`}
+                        role="menu"
+                      >
+                        {item.children.map((child) => (
+                          <a
+                            key={child.href}
+                            href={resolveHref(child.href)}
+                            role="menuitem"
+                            className={`block min-h-11 rounded-xl px-3.5 py-3 text-sm font-medium transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-2px] ${
+                              lightGlass
+                                ? 'text-[#173149]/74 hover:bg-[#edf6fb] hover:text-[#102235] focus-visible:outline-[#0055ff]'
+                                : 'text-white/70 hover:bg-white/[0.08] hover:text-white focus-visible:outline-white'
+                            }`}
+                          >
+                            {child.label}
+                          </a>
+                        ))}
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
+              )
+            })}
             <a
-              href={resolveHref(contactItem.href)}
+              href={resolveHref(contactItem.href ?? '#contact')}
               className={`ml-2 rounded-[14px] px-6 py-3 text-sm font-semibold transition-all duration-300 hover:-translate-y-0.5 ${
                 lightGlass
                   ? 'border border-white/75 bg-white/90 text-[#102235] shadow-[0_10px_30px_rgba(61,98,126,0.16)] hover:bg-white'
@@ -292,16 +392,60 @@ function Navigation({ standalone = false, lightGlass: preferLightGlass = false }
             }`}
             aria-label="Mobile navigation"
           >
-            {navItems.map((item) => (
-              <a
-                key={item.href}
-                href={resolveHref(item.href)}
-                onClick={closeMobileMenu}
-                className={`block rounded-2xl px-4 py-3 text-sm transition-colors duration-300 ${mobileLinkClass}`}
-              >
-                {item.label}
-              </a>
-            ))}
+            {navItems.map((item) => {
+              if (!item.children) {
+                return (
+                  <a
+                    key={item.label}
+                    href={resolveHref(item.href ?? '#home')}
+                    onClick={closeMobileMenu}
+                    className={`flex min-h-12 items-center rounded-2xl px-4 py-3 text-sm transition-colors duration-300 ${mobileLinkClass}`}
+                  >
+                    {item.label}
+                  </a>
+                )
+              }
+
+              const expanded = mobileCategoryOpen === item.label
+              return (
+                <div key={item.label}>
+                  <button
+                    type="button"
+                    className={`flex min-h-12 w-full items-center justify-between rounded-2xl px-4 py-3 text-left text-sm transition-colors duration-300 ${mobileLinkClass}`}
+                    aria-expanded={expanded}
+                    onClick={() => setMobileCategoryOpen(expanded ? null : item.label)}
+                  >
+                    {item.label}
+                    <ChevronDown
+                      className={`h-4 w-4 transition-transform duration-200 ${expanded ? 'rotate-180' : ''}`}
+                      aria-hidden="true"
+                    />
+                  </button>
+                  <AnimatePresence initial={false}>
+                    {expanded && (
+                      <motion.div
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: 'auto', opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        transition={{ duration: 0.2 }}
+                        className="overflow-hidden pl-3"
+                      >
+                        {item.children.map((child) => (
+                          <a
+                            key={child.href}
+                            href={resolveHref(child.href)}
+                            onClick={closeMobileMenu}
+                            className={`flex min-h-12 items-center rounded-2xl px-4 py-3 text-sm transition-colors duration-300 ${mobileLinkClass}`}
+                          >
+                            {child.label}
+                          </a>
+                        ))}
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
+              )
+            })}
           </motion.nav>
         )}
       </AnimatePresence>
@@ -347,15 +491,18 @@ function App() {
   const aboutPreviewMode = searchParams.get('aboutPreview') === '1'
   const projectExperienceMode = searchParams.get('page') === 'experience'
   const webProjectMode = searchParams.get('page') === 'web-project'
+  const stateGridPortalProjectMode = searchParams.get('page') === 'web-state-grid'
   const mobileProjectMode = searchParams.get('page') === 'mobile-project'
+  const smartSiteProjectMode = searchParams.get('page') === 'mobile-smart-site'
   const visualizationProjectMode = searchParams.get('page') === 'visualization-project'
+  const fireVisualizationProjectMode = searchParams.get('page') === 'visualization-fire'
   const hmiCockpitProjectMode = searchParams.get('page') === 'hmi-cockpit'
   const aigcProjectMode = searchParams.get('page') === 'aigc-project'
   const projectPreviewParam = searchParams.get('projectPreview')
   const projectPreviewMode = projectPreviewParam === '1' || projectPreviewParam === '2' || projectPreviewParam === '3'
   const projectPreviewVariant: ShowcaseVariant =
     projectPreviewParam === '2' ? 'stage' : projectPreviewParam === '3' ? 'archive' : 'atlas'
-  const isStandalonePage = aboutPreviewMode || projectExperienceMode || projectPreviewMode || webProjectMode || mobileProjectMode || visualizationProjectMode || hmiCockpitProjectMode || aigcProjectMode
+  const isStandalonePage = aboutPreviewMode || projectExperienceMode || projectPreviewMode || webProjectMode || stateGridPortalProjectMode || mobileProjectMode || smartSiteProjectMode || visualizationProjectMode || fireVisualizationProjectMode || hmiCockpitProjectMode || aigcProjectMode
   const [introVisible, setIntroVisible] = useState(() => !isStandalonePage && !hasSeenOpeningSequence())
   const heroRef = useRef<HTMLElement>(null)
   const lenisRef = useRef<Lenis | null>(null)
@@ -461,12 +608,34 @@ function App() {
     )
   }
 
+  if (stateGridPortalProjectMode) {
+    return (
+      <main className="h-svh overflow-hidden bg-[#151515] font-sans text-white">
+        <Navigation standalone />
+        <ProjectPageEntrance className="h-full">
+          <StateGridPortalProjectPage />
+        </ProjectPageEntrance>
+      </main>
+    )
+  }
+
   if (mobileProjectMode) {
     return (
       <main className="h-svh overflow-hidden bg-[#151515] font-sans text-white">
         <Navigation standalone />
         <ProjectPageEntrance className="h-full">
           <MobileProjectPage />
+        </ProjectPageEntrance>
+      </main>
+    )
+  }
+
+  if (smartSiteProjectMode) {
+    return (
+      <main className="h-svh overflow-hidden bg-[#151515] font-sans text-white">
+        <Navigation standalone />
+        <ProjectPageEntrance className="h-full">
+          <SmartSiteProjectPage />
         </ProjectPageEntrance>
       </main>
     )
@@ -489,6 +658,17 @@ function App() {
         <Navigation standalone />
         <ProjectPageEntrance className="h-full">
           <HmiCockpitProjectPage />
+        </ProjectPageEntrance>
+      </main>
+    )
+  }
+
+  if (fireVisualizationProjectMode) {
+    return (
+      <main className="h-svh overflow-hidden bg-[#151515] font-sans text-white">
+        <Navigation standalone />
+        <ProjectPageEntrance className="h-full">
+          <FireVisualizationProjectPage />
         </ProjectPageEntrance>
       </main>
     )
