@@ -247,7 +247,6 @@ function LocalProjectComments({ projectId, projectName }: { projectId: string; p
         style={{ left: `clamp(16px, ${pin.anchor.x * 100}%, calc(100% - 16px))`, top: `clamp(16px, ${pin.anchor.y * 100}%, calc(100% - 16px))` }}
         ref={element => { if (element) pinRefs.current.set(pin.id, element); else pinRefs.current.delete(pin.id) }}
         aria-label={`查看批注 ${pin.number}`} aria-expanded={activeId === pin.id}
-        title="悬停查看，拖动调整批注位置"
         onPointerEnter={event => { cancelClose(); if (event.pointerType === 'mouse' && Date.now() >= hoverBlockedUntil.current && !dragRef.current && suppressHover.current !== pin.id && !placing && activeId !== pendingId) setActiveId(pin.id) }}
         onPointerLeave={event => { if (event.pointerType === 'mouse' && !dragRef.current) { suppressHover.current = null; scheduleClose() } }}
         onFocus={() => { cancelClose(); if (Date.now() >= hoverBlockedUntil.current && !placing && activeId !== pendingId && !dragRef.current && suppressHover.current !== pin.id) setActiveId(pin.id) }}
