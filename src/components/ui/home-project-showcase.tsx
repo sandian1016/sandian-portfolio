@@ -50,8 +50,8 @@ const projects: HomeProject[] = [
     icon: MonitorCog,
     image: '/projects/home-showcase/web-industrial-iot-cover.jpg',
     imageAlt: '工业物联网安全生产平台 WEB 端设计封面',
-    gradient: 'linear-gradient(160deg, #5645a9 0%, #9977dc 52%, #463184 100%)',
-    activeGradient: 'linear-gradient(155deg, #c8b6f5 0%, #e7dffd 53%, #fefcff 100%)',
+    gradient: 'linear-gradient(160deg, #1da5e2 0%, #32cce4 54%, #1ab6d8 100%)',
+    activeGradient: 'linear-gradient(155deg, #a0e8f5 0%, #cff5fb 53%, #fbfefe 100%)',
   },
   {
     id: 'data-visualization',
