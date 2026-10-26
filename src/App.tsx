@@ -2,8 +2,6 @@ import {
   AnimatePresence,
   motion,
   useReducedMotion,
-  useScroll,
-  useTransform,
 } from 'framer-motion'
 import Lenis from 'lenis'
 import 'lenis/dist/lenis.css'
@@ -504,16 +502,7 @@ function App() {
     projectPreviewParam === '2' ? 'stage' : projectPreviewParam === '3' ? 'archive' : 'atlas'
   const isStandalonePage = aboutPreviewMode || projectExperienceMode || projectPreviewMode || webProjectMode || stateGridPortalProjectMode || mobileProjectMode || smartSiteProjectMode || visualizationProjectMode || fireVisualizationProjectMode || hmiCockpitProjectMode || aigcProjectMode
   const [introVisible, setIntroVisible] = useState(() => !isStandalonePage && !hasSeenOpeningSequence())
-  const heroRef = useRef<HTMLElement>(null)
   const lenisRef = useRef<Lenis | null>(null)
-  const reducePageMotion = useReducedMotion()
-  const { scrollYProgress: heroScrollProgress } = useScroll({
-    target: heroRef,
-    offset: ['start start', 'end start'],
-  })
-  const heroContentY = useTransform(heroScrollProgress, [0, 1], [0, -42])
-  const heroContentScale = useTransform(heroScrollProgress, [0, 0.72, 1], [1, 0.992, 0.978])
-  const heroContentOpacity = useTransform(heroScrollProgress, [0, 0.55, 1], [1, 0.96, 0.78])
 
   useEffect(() => {
     if (isStandalonePage) return
@@ -714,16 +703,13 @@ function App() {
       <Navigation lightGlass />
 
       <section
-        ref={heroRef}
         id="home"
         className="relative h-[clamp(600px,100svh,720px)] overflow-hidden bg-[#f4f8ff] text-[#0b1f33] md:h-[600px]"
       >
-        <motion.div
-          style={reducePageMotion ? undefined : { y: heroContentY, scale: heroContentScale, opacity: heroContentOpacity }}
-          className="h-full will-change-transform"
-        >
+        <div className="h-full">
           <HeroCarousel introVisible={introVisible} />
-        </motion.div>
+        </div>
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-16 bg-gradient-to-b from-transparent to-[#f8fbff]" aria-hidden="true" />
       </section>
 
       <AboutSection />

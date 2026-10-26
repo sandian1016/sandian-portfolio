@@ -144,7 +144,7 @@ export function HmiCockpitProjectPage() {
           <figure
             id={frame.id}
             key={frame.id}
-            className="mx-auto w-[calc(100%-24px)] max-w-[1280px] flex-none scroll-mt-4 overflow-hidden rounded-[29px] border border-white/[0.06] bg-[#0f0f0f] shadow-[0_34px_80px_rgba(0,0,0,0.28)] sm:w-[calc(100%-40px)] md:w-[calc(100%-64px)]"
+            className="mx-auto w-[calc(100%-32px)] max-w-[1440px] flex-none scroll-mt-4 overflow-hidden rounded-[29px] border border-white/[0.06] bg-[#0f0f0f] shadow-[0_34px_80px_rgba(0,0,0,0.28)] sm:w-[calc(100%-48px)] md:w-[calc(100%-80px)]"
           >
             <button
               type="button"
