@@ -229,12 +229,9 @@ function Navigation({ standalone = false, lightGlass: preferLightGlass = false }
       frameId = window.requestAnimationFrame(() => {
         setScrolled(window.scrollY > 48)
         if (preferLightGlass) {
-          const overDark = ['about', 'projects', 'contact'].some(id => {
-            const section = document.getElementById(id)
-            if (!section) return false
-            const bounds = section.getBoundingClientRect()
-            return bounds.top <= 92 && bounds.bottom > 20
-          })
+          const section = document.getElementById('contact')
+          const bounds = section?.getBoundingClientRect()
+          const overDark = Boolean(bounds && bounds.top <= 92 && bounds.bottom > 20)
           setOverDarkSection(current => current === overDark ? current : overDark)
         }
       })
