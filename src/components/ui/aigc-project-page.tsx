@@ -131,6 +131,14 @@ export function AigcProjectPage() {
   }, [])
 
   useEffect(() => {
+    const initialChapter = aigcProjectChapters.find((chapter) => chapter.id === window.location.hash.slice(1))
+    const scrollContainer = scrollContainerRef.current
+    const initialFrame = initialChapter && document.getElementById(initialChapter.id)
+
+    if (scrollContainer && initialFrame) {
+      scrollContainer.scrollTop += initialFrame.getBoundingClientRect().top - scrollContainer.getBoundingClientRect().top
+    }
+
     const observer = new IntersectionObserver(
       (entries) => {
         const visibleFrame = entries
