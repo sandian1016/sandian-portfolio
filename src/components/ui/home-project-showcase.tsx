@@ -72,9 +72,9 @@ const projects: HomeProject[] = [
     description: '探索生成式创作在角色形象与视觉表达中的更多可能。',
     href: '/?page=aigc-project',
     icon: Sparkles,
-    image: '/projects/home-showcase/aigc-ip-design-cover.jpg',
-    imageAlt: '联通数科通通 IP AIGC 设计封面',
-    imagePosition: 'center top',
+    image: '/projects/aigc-project/aigc-frame-04.webp',
+    imageAlt: '联通数科通通 IP 节日海报插画合集',
+    imagePosition: 'center 45%',
     gradient: 'linear-gradient(160deg, #c82d50 0%, #f27378 52%, #a92347 100%)',
     activeGradient: 'linear-gradient(155deg, #ffb8bc 0%, #ffe0e2 53%, #fffdfd 100%)',
   },
@@ -104,7 +104,7 @@ function ProjectCard({ project, active, onActivate }: {
               decoding="async"
               width={1920}
               height={1080}
-              className="project-gallery-card__media-image"
+              className={'project-gallery-card__media-image' + (project.id === 'aigc-design' ? ' project-gallery-card__media-image--aigc' : '')}
               draggable={false}
               style={{ objectPosition: project.imagePosition ?? 'center' }}
             />

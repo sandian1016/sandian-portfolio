@@ -883,6 +883,8 @@ a {
 .project-gallery-card__media { position: relative; min-width: 0; min-height: 0; height: 100%; overflow: hidden; border-radius: 15px; background: #dce6ed; }
 .project-gallery-card__media-image { position: absolute; inset: 0; display: block; width: 100%; height: 100%; object-fit: cover; transition: transform .6s cubic-bezier(.2,.8,.2,1); }
 .project-gallery-card--active:hover .project-gallery-card__media-image { transform: scale(1.035); }
+.project-gallery-card__media-image--aigc { transform: scale(1.4); }
+.project-gallery-card--active:hover .project-gallery-card__media-image--aigc { transform: scale(1.45); }
 .project-gallery-card__copy { display: flex; flex-direction: column; min-width: 0; min-height: 0; padding: clamp(18px, 2.15vw, 36px); }
 .project-gallery-card__category { display: inline-flex; align-items: center; gap: 8px; color: #353c53; font-size: clamp(11px, 1vw, 14px); font-weight: 600; line-height: 1.35; }
 .project-gallery-card__category svg { flex: none; }
@@ -1077,15 +1079,20 @@ a {
 
 .project-lightbox-stage::-webkit-scrollbar { display: none; }
 
-@media (min-width: 1024px) and (max-width: 1663px) {
+@media (min-width: 1024px) {
   .web-project-sidebar {
     left: 16px;
     display: block;
-    width: 160px;
+    width: 200px;
   }
 
   .project-frame-scroll {
-    padding-left: clamp(0px, calc(1664px - 100vw), 160px);
+    padding-left: max(200px, calc(50vw - 648px));
+  }
+
+  .project-frame-scroll > figure[id] {
+    margin-left: 40px;
+    margin-right: 40px;
   }
 
   .web-project-sidebar__link {
@@ -1098,7 +1105,7 @@ a {
   .web-project-sidebar {
     left: max(16px, calc(50% - 932px));
     display: block;
-    width: min(260px, calc((100vw - 1280px) / 2 - 24px));
+    width: min(260px, max(200px, calc((100vw - 1280px) / 2 - 24px)));
   }
 }
 
