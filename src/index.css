@@ -1096,34 +1096,25 @@ a {
 
 @media (min-width: 1024px) {
   .web-project-sidebar {
-    left: 16px;
+    left: max(16px, calc(50vw - 932px));
     display: block;
     width: 200px;
   }
 
   .project-frame-scroll {
-    padding-left: max(200px, calc(50vw - 648px));
+    padding-left: max(240px, calc(50vw - 708px));
+    padding-right: 24px;
   }
 
   .project-frame-scroll > figure[id] {
-    margin-left: 40px;
-    margin-right: 40px;
+    margin-left: auto;
+    margin-right: auto;
   }
 
   .web-project-sidebar__link {
     padding-right: 8px;
     font-size: 15px;
   }
-}
-
-@media (min-width: 1664px) {
-  .web-project-sidebar {
-    left: max(16px, calc(50% - 932px));
-    display: block;
-    width: min(260px, max(200px, calc((100vw - 1280px) / 2 - 24px)));
-  }
-
-  .project-frame-scroll { padding-left: 300px; }
 }
 
 @media (max-width: 1023px) {
