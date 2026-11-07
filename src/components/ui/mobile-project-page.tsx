@@ -14,27 +14,24 @@ type MobileProjectFrame = {
 }
 
 const mobileProjectFrames: MobileProjectFrame[] = [
-  ['mobile-project-cover', '项目封面', '酷潮移动端 APP 项目封面'],
-  ['mobile-interface-showcase', '核心界面展示', '酷潮移动端 APP 核心界面展示'],
-  ['mobile-project-background', '项目背景', '酷潮移动端 APP 项目背景'],
-  ['mobile-business-problem', '业务问题', '酷潮移动端 APP 业务问题'],
-  ['mobile-design-task', '设计任务', '酷潮移动端 APP 设计任务'],
-  ['mobile-style-definition', '设计风格定义', '酷潮移动端 APP 设计风格定义'],
-  ['mobile-typography', '字体规范', '酷潮移动端 APP 字体规范'],
-  ['mobile-ip-design', '情感化设计IP形象', '酷潮移动端 APP 情感化设计 IP 形象'],
-  ['mobile-ai-workflow', 'Codex/Cursor快速输出方案', '酷潮移动端 APP Codex 与 Cursor 快速输出方案'],
-  ['mobile-content-discovery', '内容发现与设计', '酷潮移动端 APP 内容发现与设计'],
-  ['mobile-blind-box', '盲盒核心体验', '酷潮移动端 APP 盲盒核心体验'],
-  ['mobile-membership', '会员成长体系', '酷潮移动端 APP 会员成长体系'],
-  ['mobile-community', '社区增长', '酷潮移动端 APP 社区增长'],
-  ['mobile-final-showcase', '核心界面总览', '酷潮移动端 APP 核心界面总览'],
-].map(([id, label, alt], index) => ({
-  id,
-  label,
-  src: `/projects/mobile-project/mobile-frame-${String(index + 1).padStart(2, '0')}.webp`,
-  alt,
-  width: 1920,
-  height: 1080,
+  ['mobile-project-cover', '项目封面', 720],
+  ['mobile-interface-showcase', '界面展示', 720],
+  ['mobile-project-background', '项目背景', 720],
+  ['mobile-graphic-definition', '图形定义', 720],
+  ['mobile-material-definition', '质感定义', 720],
+  ['mobile-tabbar', 'Tab Bar 设计', 720],
+  ['mobile-home-design', '首页设计', 1658],
+  ['mobile-purchase-flow', '交易闭环', 1111],
+  ['mobile-blind-box', '盲盒铺子', 1000],
+  ['mobile-sign-in', '签到活动', 1131],
+  ['mobile-final-showcase', '作品总览', 1448],
+].map(([id, label, height], index) => ({
+  id: String(id),
+  label: String(label),
+  src: `/projects/michao/${String(index + 1).padStart(2, '0')}.webp`,
+  alt: `觅潮移动端 APP：${label}`,
+  width: 1280,
+  height: Number(height),
 }))
 
 export function MobileProjectPage() {

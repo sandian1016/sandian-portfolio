@@ -42,62 +42,15 @@ const featuredFrames: AigcProjectFrame[] = [
   {
     id: 'aigc-festival-posters',
     label: '情感化设计｜节日海报',
-    src: '/projects/aigc-project/aigc-frame-04.webp',
+    src: '/projects/aigc-project/festival-updated.webp',
     alt: '联通数科通通 IP 节日海报插画设计',
     width: 1920,
     height: 4493,
   },
 ]
 
-const xuzhouImageDescriptions = [
-  '徐州文旅 AIGC 设计项目封面',
-  '徐州文旅项目背景与设计策略',
-  '徐州文旅移动端体验设计',
-  '徐州文旅四季品牌主视觉设计',
-  '徐州文旅文创周边设计总览',
-  '徐州文旅 AIGC 方法与项目总结',
-  '徐州文旅春季主视觉',
-  '徐州文旅夏季主视觉',
-  '徐州文旅秋季主视觉',
-  '徐州文旅红色文化主视觉',
-  '徐州文旅博物馆主题主视觉',
-  '徐州文旅冬季主视觉',
-  '徐州文旅春季户外广告展示',
-  '徐州文旅纪念票券设计',
-  '徐州文旅立体书设计',
-  '徐州文旅帆布袋设计',
-  '徐州文旅冰箱贴设计',
-  '徐州文旅纪念挂件设计',
-  '徐州文旅文创礼盒设计',
-  '徐州文旅纪念章设计',
-] as const
-
-const xuzhouProjectFrames: AigcProjectFrame[] = xuzhouImageDescriptions.map((alt, index) => {
-  const chapterId = index < 6
-    ? 'xuzhou-case-study'
-    : index < 12
-      ? 'xuzhou-seasonal-visuals'
-      : 'xuzhou-merchandise'
-  const number = String(index + 1).padStart(2, '0')
-
-  return {
-    id: index === 0 || index === 6 || index === 12 ? chapterId : `xuzhou-image-${number}`,
-    chapterId,
-    label: alt,
-    src: `/projects/aigc-project/xuzhou-cultural-tourism-${number}.png`,
-    alt,
-    width: index < 6 ? 1672 : index < 12 ? 1916 : 1448,
-    height: index < 6 ? 941 : index < 12 ? 821 : 1086,
-  }
-})
-
-const aigcProjectFrames = [...featuredFrames, ...xuzhouProjectFrames]
-const aigcProjectChapters = [
-  ...featuredFrames.map(({ id, label }) => ({ id, label })),
-  { id: 'xuzhou-case-study', label: '徐州文旅｜设计方案' },
-  { id: 'xuzhou-seasonal-visuals', label: '徐州文旅｜四季视觉' },
-  { id: 'xuzhou-merchandise', label: '徐州文旅｜文创周边' },
-]
+const aigcProjectFrames = featuredFrames
+const aigcProjectChapters = featuredFrames.map(({ id, label }) => ({ id, label }))
 
 export function AigcProjectPage() {
   const [activeSectionId, setActiveSectionId] = useState('aigc-visual-collection')

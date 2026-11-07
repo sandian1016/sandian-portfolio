@@ -8,17 +8,20 @@ import 'lenis/dist/lenis.css'
 import { ChevronDown, Menu, X } from 'lucide-react'
 import { type ReactNode, useEffect, useRef, useState } from 'react'
 import Galaxy from './components/Galaxy'
+import { CardTunnelPreview } from './components/card-tunnel-preview'
 import { AigcProjectPage } from './components/ui/aigc-project-page'
 import { AboutSection } from './components/ui/about-section'
 import { BrandLogo } from './components/ui/brand-logo'
 import { Footer } from './components/ui/footer-section'
-import { HeroCarousel } from './components/ui/hero-carousel'
 import { HmiCockpitProjectPage } from './components/ui/hmi-cockpit-project-page'
 import { HomeProjectShowcase } from './components/ui/home-project-showcase'
 import { MobileProjectPage } from './components/ui/mobile-project-page'
 import { ProjectExperiencePage } from './components/ui/project-experience-page'
 import {
+  BudingProjectPage,
+  C5OaProjectPage,
   FireVisualizationProjectPage,
+  MliProjectPage,
   SmartSiteProjectPage,
   StateGridPortalProjectPage,
 } from './components/ui/supplemental-project-pages'
@@ -28,6 +31,7 @@ import {
 } from './components/ui/project-showcase-lab'
 import { WebProjectPage } from './components/ui/web-project-page'
 import { VisualizationProjectPage } from './components/ui/visualization-project-page'
+import { SHOW_HMI_PROJECT } from './project-visibility'
 
 const PROJECT_ENTRY_EASE = [0.22, 1, 0.36, 1] as const
 const OPENING_SEQUENCE_SESSION_KEY = 'sandian-opening-sequence-seen'
@@ -51,7 +55,7 @@ const navItems: NavigationItem[] = [
   {
     label: '移动端',
     children: [
-      { label: '酷潮移动端 APP', href: '/?page=mobile-project' },
+      { label: '觅潮移动端 APP', href: '/?page=mobile-project' },
       { label: '智慧工地 APP', href: '/?page=mobile-smart-site' },
     ],
   },
@@ -60,17 +64,25 @@ const navItems: NavigationItem[] = [
     children: [
       { label: '工业物联网安全生产平台', href: '/?page=web-project' },
       { label: '国网电动企业门户网站', href: '/?page=web-state-grid' },
+      { label: '全管C5-OA办公系统', href: '/?page=web-c5-oa' },
     ],
   },
   {
     label: '可视化',
     children: [
-      { label: '智慧城市运营中心', href: '/?page=visualization-project' },
+      { label: '研究院数字孪生管控系统', href: '/?page=visualization-project' },
       { label: '智慧消防平台', href: '/?page=visualization-fire' },
     ],
   },
-  { label: 'HMI智能座舱', href: '/?page=hmi-cockpit' },
-  { label: 'AIGC设计', href: '/?page=aigc-project' },
+  ...(SHOW_HMI_PROJECT ? [{ label: 'HMI智能座舱', href: '/?page=hmi-cockpit' }] : []),
+  {
+    label: '品牌/AI设计',
+    children: [
+      { label: '布叮甜坊', href: '/?page=brand-buding' },
+      { label: '原创潮玩 IP', href: '/?page=brand-mli' },
+      { label: 'AIGC 设计', href: '/?page=aigc-project' },
+    ],
+  },
   { label: '个人简介', href: '#about' },
   { label: '联系方式', href: '#contact' },
 ]
@@ -483,21 +495,25 @@ function HeroBackground() {
 
 function App() {
   const searchParams = new URLSearchParams(window.location.search)
+  const cardTunnelPreviewMode = searchParams.get('motionPreview') === 'card-tunnel'
   const aboutPreviewMode = searchParams.get('aboutPreview') === '1'
   const projectExperienceMode = searchParams.get('page') === 'experience'
   const webProjectMode = searchParams.get('page') === 'web-project'
   const stateGridPortalProjectMode = searchParams.get('page') === 'web-state-grid'
+  const c5OaProjectMode = searchParams.get('page') === 'web-c5-oa'
   const mobileProjectMode = searchParams.get('page') === 'mobile-project'
   const smartSiteProjectMode = searchParams.get('page') === 'mobile-smart-site'
   const visualizationProjectMode = searchParams.get('page') === 'visualization-project'
   const fireVisualizationProjectMode = searchParams.get('page') === 'visualization-fire'
   const hmiCockpitProjectMode = searchParams.get('page') === 'hmi-cockpit'
   const aigcProjectMode = searchParams.get('page') === 'aigc-project'
+  const budingProjectMode = searchParams.get('page') === 'brand-buding'
+  const mliProjectMode = searchParams.get('page') === 'brand-mli'
   const projectPreviewParam = searchParams.get('projectPreview')
   const projectPreviewMode = projectPreviewParam === '1' || projectPreviewParam === '2' || projectPreviewParam === '3'
   const projectPreviewVariant: ShowcaseVariant =
     projectPreviewParam === '2' ? 'stage' : projectPreviewParam === '3' ? 'archive' : 'atlas'
-  const isStandalonePage = aboutPreviewMode || projectExperienceMode || projectPreviewMode || webProjectMode || stateGridPortalProjectMode || mobileProjectMode || smartSiteProjectMode || visualizationProjectMode || fireVisualizationProjectMode || hmiCockpitProjectMode || aigcProjectMode
+  const isStandalonePage = cardTunnelPreviewMode || aboutPreviewMode || projectExperienceMode || projectPreviewMode || webProjectMode || stateGridPortalProjectMode || c5OaProjectMode || mobileProjectMode || smartSiteProjectMode || visualizationProjectMode || fireVisualizationProjectMode || hmiCockpitProjectMode || aigcProjectMode || budingProjectMode || mliProjectMode
   const [introVisible, setIntroVisible] = useState(() => !isStandalonePage && !hasSeenOpeningSequence())
   const lenisRef = useRef<Lenis | null>(null)
 
@@ -660,12 +676,47 @@ function App() {
     )
   }
 
+  if (c5OaProjectMode) {
+    return (
+      <main className="h-svh overflow-hidden bg-[#151515] font-sans text-white">
+        <Navigation standalone />
+        <ProjectPageEntrance className="h-full">
+          <C5OaProjectPage />
+        </ProjectPageEntrance>
+      </main>
+    )
+  }
+
+  if (mliProjectMode) {
+    return (
+      <main className="h-svh overflow-hidden bg-[#151515] font-sans text-white">
+        <Navigation standalone />
+        <ProjectPageEntrance className="h-full">
+          <MliProjectPage />
+        </ProjectPageEntrance>
+      </main>
+    )
+  }
+
   if (aigcProjectMode) {
     return (
       <main className="h-svh overflow-hidden bg-[#151515] font-sans text-white">
         <Navigation standalone />
         <ProjectPageEntrance className="h-full">
           <AigcProjectPage />
+        </ProjectPageEntrance>
+      </main>
+    )
+  }
+
+  if (cardTunnelPreviewMode) return <CardTunnelPreview />
+
+  if (budingProjectMode) {
+    return (
+      <main className="h-svh overflow-hidden bg-[#151515] font-sans text-white">
+        <Navigation standalone />
+        <ProjectPageEntrance className="h-full">
+          <BudingProjectPage />
         </ProjectPageEntrance>
       </main>
     )
@@ -695,18 +746,15 @@ function App() {
   }
 
   return (
-    <main className="min-h-screen bg-[#f8fbfd] font-sans text-[#0b1f33]">
+    <main className="home-dark-theme min-h-screen bg-[#050505] font-sans text-white">
       <OpeningSequence visible={introVisible} />
-      <Navigation lightGlass />
+      <Navigation />
 
       <section
         id="home"
-        className="relative h-[clamp(600px,100svh,720px)] overflow-hidden bg-[#f4f8ff] text-[#0b1f33] md:h-[600px]"
+        className="relative overflow-hidden bg-black text-white"
       >
-        <div className="h-full">
-          <HeroCarousel introVisible={introVisible} />
-        </div>
-        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-16 bg-gradient-to-b from-transparent to-[#f8fbff]" aria-hidden="true" />
+        <CardTunnelPreview embedded start={!introVisible} />
       </section>
 
       <AboutSection />

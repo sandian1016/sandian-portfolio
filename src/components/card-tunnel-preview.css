@@ -1,0 +1,22 @@
+.tunnel-preview{min-height:100svh;background:#000;color:#f7f7f7;overflow:hidden;font-family:Arial,sans-serif}
+.tunnel-nav{position:absolute;z-index:10;top:3.5%;left:4%;right:4%;height:58px;padding:0 14px 0 20px;display:flex;align-items:center;gap:38px;border:1px solid #242424;border-radius:40px;background:#101010}
+.tunnel-nav a{color:inherit;text-decoration:none}.tunnel-brand{font-size:17px;font-weight:700;white-space:nowrap}.tunnel-brand span{display:inline-grid;place-items:center;width:29px;height:29px;margin-right:8px;border-radius:8px;background:white;color:#111}
+.tunnel-nav-links{display:flex;gap:35px;margin:auto;color:#b8b8b8;font-size:14px}.tunnel-contact{padding:12px 20px;border-radius:28px;background:white;color:black!important;font-size:13px;font-weight:700;white-space:nowrap}
+.tunnel-stage{height:100svh;min-height:600px;position:relative;overflow:hidden;perspective:1000px}
+.tunnel-heading{position:absolute;z-index:1;top:23%;font-size:clamp(45px,7.4vw,145px);font-weight:500;line-height:1.12;letter-spacing:-.03em;animation:tunnel-heading 14s infinite}
+.tunnel-heading-left{left:6%}.tunnel-heading-right{right:6%;text-align:right}
+.tunnel-world{position:absolute;inset:0;transform-style:preserve-3d;animation:world-turn 14s infinite}
+.tunnel-card{position:absolute;left:50%;top:50%;width:clamp(75px,8vw,155px);aspect-ratio:1.45;background:#eee;opacity:0;animation:14s infinite both;will-change:transform,opacity}
+.tunnel-card img{width:100%;height:100%;display:block;object-fit:cover}
+.tunnel-edge-blur{position:absolute;z-index:2;left:0;right:0;height:18%;pointer-events:none;backdrop-filter:blur(6px);-webkit-backdrop-filter:blur(6px);animation:edge-blur-visibility 14s infinite}
+.tunnel-edge-blur-top{top:0;mask-image:linear-gradient(to bottom,#000 15%,transparent);-webkit-mask-image:linear-gradient(to bottom,#000 15%,transparent)}
+.tunnel-edge-blur-bottom{bottom:0;mask-image:linear-gradient(to top,#000 15%,transparent);-webkit-mask-image:linear-gradient(to top,#000 15%,transparent)}
+.tunnel-caption{position:absolute;bottom:12%;left:40%;font-size:clamp(12px,1.1vw,19px);font-weight:600;line-height:1.2;animation:tunnel-heading 14s infinite}
+.tunnel-final{position:absolute;top:22%;right:7%;opacity:0;animation:final-copy 14s infinite}.tunnel-final h1{font-size:clamp(42px,5.4vw,105px);line-height:.94;letter-spacing:-.06em;font-weight:500}.tunnel-final p{font-size:14px;line-height:1.5;margin:36px 0}.tunnel-final a{display:inline-block;border-radius:30px;background:#fff;color:#111;padding:13px 20px;font-size:13px;text-decoration:none;font-weight:700}
+@keyframes world-turn{0%,51%{transform:rotate(0)}70%,100%{transform:rotate(-6deg)}}
+@keyframes tunnel-heading{0%,5%{opacity:0}12%,38%{opacity:1}50%,100%{opacity:0}}
+@keyframes final-copy{0%,70%{opacity:0;transform:translateX(35px)}80%,89%{opacity:1;transform:translateX(0)}98%,100%{opacity:0}}
+@keyframes edge-blur-visibility{0%,38%{opacity:1}53%,100%{opacity:0}}
+.tunnel-preview:not(.is-ready) .tunnel-heading,.tunnel-preview:not(.is-ready) .tunnel-world,.tunnel-preview:not(.is-ready) .tunnel-card,.tunnel-preview:not(.is-ready) .tunnel-edge-blur,.tunnel-preview:not(.is-ready) .tunnel-caption,.tunnel-preview:not(.is-ready) .tunnel-final{animation-play-state:paused}
+@media(max-width:700px){.tunnel-stage{min-height:500px}.tunnel-nav{top:18px;height:50px}.tunnel-nav-links{display:none}.tunnel-contact{margin-left:auto}.tunnel-heading{top:25%;font-size:clamp(38px,9vw,68px)}.tunnel-heading-left{left:5%}.tunnel-heading-right{right:5%}.tunnel-card{width:22vw}.tunnel-final{top:25%;right:5%;text-align:right}.tunnel-final h1{font-size:44px}.tunnel-final p{font-size:12px}.tunnel-caption{left:34%;bottom:18%;font-size:11px}}
+@media(prefers-reduced-motion:reduce){.tunnel-heading,.tunnel-world,.tunnel-card,.tunnel-caption,.tunnel-final{animation-play-state:paused}.tunnel-card{transform:translate(-50%,-50%) translate(var(--x),var(--y)) rotate(var(--rotation));opacity:1}.tunnel-heading,.tunnel-caption{opacity:1}.tunnel-final,.tunnel-edge-blur{display:none}}

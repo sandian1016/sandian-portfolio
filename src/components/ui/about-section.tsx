@@ -8,7 +8,7 @@ type Experience = {
 
 const profile = [
   { label: '姓名', value: '邓威' },
-  { label: '经验', value: '5 年' },
+  { label: '经验', value: '6 年' },
   { label: '微信', value: 'Sandian1016' },
 ]
 
@@ -52,12 +52,12 @@ export function AboutSection({ previewMode = false }: { previewMode?: boolean })
       }`}
     >
       <div className="relative mx-auto w-full max-w-[1280px]">
-        <header className="max-w-[960px]">
+        {previewMode && <header className="max-w-[960px]">
           <p className="text-xs font-semibold tracking-[0.18em] text-[#0055ff]">ABOUT / PERSONAL PROFILE</p>
           <h2 className="font-yahei mt-3 text-[30px] font-bold leading-[1.2] tracking-[-0.04em] text-[#17283e] sm:text-[38px] lg:whitespace-nowrap lg:text-[42px]">
             从业务理解到体验落地，让复杂系统更清晰。
           </h2>
-        </header>
+        </header>}
 
         <div className="mt-8 sm:mt-9">
           <SectionHeading title="基本信息" english="Basic Information" />

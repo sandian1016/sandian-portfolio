@@ -1,5 +1,6 @@
 import { ArrowLeft, ArrowRight, ArrowUpRight, BarChart3, CarFront, MonitorCog, Smartphone, Sparkles, type LucideIcon } from 'lucide-react'
 import { useState } from 'react'
+import { SHOW_HMI_PROJECT } from '../../project-visibility'
 
 type HomeProject = {
   id: string
@@ -33,11 +34,11 @@ const projects: HomeProject[] = [
     id: 'mobile-app',
     title: '移动端 APP 设计',
     category: 'Mobile Experience',
-    description: '围绕内容发现与产品使用场景，探索更直观、更流畅的移动端体验。',
+    description: '围绕潮流购物与盲盒体验，探索充满个性的移动端视觉与交互设计。',
     href: '/?page=mobile-project',
     icon: Smartphone,
-    image: '/projects/home-showcase/mobile-kuchao-cover.jpg',
-    imageAlt: '酷潮移动端 APP 视觉设计封面',
+    image: '/projects/michao/01.webp',
+    imageAlt: '觅潮移动端 APP 视觉设计封面',
     gradient: 'linear-gradient(160deg, #315fe7 0%, #55a8fa 52%, #1546cd 100%)',
     activeGradient: 'linear-gradient(155deg, #a7c9ff 0%, #dceaff 53%, #fdfefe 100%)',
   },
@@ -57,28 +58,28 @@ const projects: HomeProject[] = [
     id: 'data-visualization',
     title: '数据可视化设计',
     category: 'Data Visualization',
-    description: '将城市运行信息组织成直观的可视化画面，帮助快速理解关键数据。',
+    description: '以数字孪生与可视化设计，呈现生产、设备与质量管理的关键场景。',
     href: '/?page=visualization-project',
     icon: BarChart3,
-    image: '/projects/home-showcase/data-southern-city-cover.jpg',
-    imageAlt: '南部新城智慧城市运营中心数据可视化封面',
+    image: '/projects/digital-twin/cover-updated.webp',
+    imageAlt: '研究院数字孪生管控系统可视化设计封面',
     gradient: 'linear-gradient(160deg, #087dcc 0%, #35b9ef 52%, #0a58ac 100%)',
     activeGradient: 'linear-gradient(155deg, #9ddcfb 0%, #d9f0ff 53%, #fcfeff 100%)',
   },
   {
     id: 'aigc-design',
-    title: 'AIGC 设计',
-    category: 'AI & Creative Exploration',
-    description: '探索生成式创作在角色形象与视觉表达中的更多可能。',
-    href: '/?page=aigc-project',
+    title: '品牌/AI设计',
+    category: 'Brand & AI Design',
+    description: '以布叮甜坊的品牌与角色设计，探索甜品、情感和视觉表达。',
+    href: '/?page=brand-buding',
     icon: Sparkles,
-    image: '/projects/aigc-project/aigc-frame-04.webp',
-    imageAlt: '联通数科通通 IP 节日海报插画合集',
-    imagePosition: 'center 45%',
+    image: '/projects/buding/01.webp',
+    imageAlt: '布叮甜坊品牌 IP 设计封面',
+    imagePosition: 'center top',
     gradient: 'linear-gradient(160deg, #c82d50 0%, #f27378 52%, #a92347 100%)',
     activeGradient: 'linear-gradient(155deg, #ffb8bc 0%, #ffe0e2 53%, #fffdfd 100%)',
   },
-]
+].filter((project) => SHOW_HMI_PROJECT || project.id !== 'hmi-cockpit')
 
 function ProjectCard({ project, active, onActivate }: {
   project: HomeProject

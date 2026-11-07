@@ -14,26 +14,31 @@ type VisualizationProjectFrame = {
 }
 
 const visualizationProjectFrames: VisualizationProjectFrame[] = [
-  ['visualization-project-cover', '项目封面', '智慧城市运营中心数据可视化项目封面'],
-  ['visualization-background', '项目背景与挑战', '智慧城市运营中心项目背景与挑战'],
-  ['visualization-style-guide', '视觉规范-颜色和字体', '智慧城市运营中心视觉规范颜色和字体'],
-  ['visualization-components', '组件展示', '智慧城市运营中心数据可视化组件展示'],
-  ['visualization-city-planning', '智慧城市规划', '智慧城市规划大屏界面设计'],
-  ['visualization-planning-screen', '智慧规划大屏', '智慧规划大屏完整界面'],
-  ['visualization-construction', '智慧城市建造', '智慧城市建造大屏界面设计'],
-  ['visualization-operations', '智慧城市运营', '智慧城市运营大屏界面设计'],
-  ['visualization-operation-center', '智慧运营中心', '智慧城市综合运营中心大屏界面设计'],
-].map(([id, label, alt], index) => ({
-  id,
-  label,
-  src: `/projects/visualization-project/visualization-frame-${String(index + 1).padStart(2, '0')}.webp`,
-  alt,
-  width: 1920,
-  height: 1080,
+  ['digital-twin-cover', '项目封面', 1280, 720],
+  ['digital-twin-concept', '设计理念', 1280, 1119],
+  ['digital-twin-components', '设计组件', 1920, 1990],
+  ['digital-twin-overview', '页面展示', 1280, 1801],
+  ['digital-twin-production', '生产车间', 1280, 720],
+  ['digital-twin-process', '生产工艺', 1920, 1080],
+  ['digital-twin-equipment', '设备管理', 1790, 2160],
+  ['digital-twin-quality', '质量管理', 1920, 1080],
+  ['digital-twin-gallery', '场景展示', 1280, 720],
+  ['digital-twin-end', '结束页', 1280, 720],
+].map(([id, label, width, height], index) => ({
+  id: String(id),
+  label: String(label),
+  src: index === 0
+    ? '/projects/digital-twin/cover-updated.webp'
+    : index === 9
+      ? '/projects/digital-twin/end-updated.webp'
+      : `/projects/digital-twin/${String(index + 1).padStart(2, '0')}.${[3, 6, 8].includes(index + 1) ? 'gif' : 'webp'}`,
+  alt: `研究院数字孪生管控系统：${label}`,
+  width: Number(width),
+  height: Number(height),
 }))
 
 export function VisualizationProjectPage() {
-  const [activeSectionId, setActiveSectionId] = useState('visualization-project-cover')
+  const [activeSectionId, setActiveSectionId] = useState('digital-twin-cover')
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null)
   const scrollContainerRef = useRef<HTMLDivElement>(null)
   const chapterNavigationRef = useChapterNavFollow(activeSectionId)
@@ -54,7 +59,7 @@ export function VisualizationProjectPage() {
     const syncActiveSection = () => {
       const hash = window.location.hash.slice(1)
       const section = visualizationProjectFrames.find((item) => item.id === hash)
-      setActiveSectionId(section?.id ?? 'visualization-project-cover')
+      setActiveSectionId(section?.id ?? 'digital-twin-cover')
     }
 
     syncActiveSection()

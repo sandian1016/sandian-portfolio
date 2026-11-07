@@ -211,6 +211,21 @@ body {
   background: #f8fbff;
 }
 
+.home-dark-theme #about { background: #050505; }
+.home-dark-theme #about [class~="text-[#17283e]"] { color: #f1f3f7; }
+.home-dark-theme #about [class~="text-[#566a80]"],
+.home-dark-theme #about [class~="text-[#63768c]"],
+.home-dark-theme #about [class~="text-[#71849a]"],
+.home-dark-theme #about [class~="text-[#7b8da0]"] { color: #a8b0bd; }
+.home-dark-theme #about [class~="bg-[#f8fbff]"] { background-color: #050505; }
+.home-dark-theme #about [class~="bg-[#d2deed]"] { background-color: #354052; }
+.home-dark-theme .project-gallery { background: #050505; color: #f1f3f7; }
+.home-dark-theme .project-gallery__eyebrow { color: #a8b0bd; }
+.home-dark-theme .project-gallery__progress { background: #343943; }
+.home-dark-theme .project-gallery__progress span { background: #8eb2ff; }
+.home-dark-theme .project-gallery__controls button { color: #f1f3f7; border-color: #626a78; }
+.home-dark-theme .project-gallery__controls button:hover:not(:disabled) { background: #f1f3f7; border-color: #f1f3f7; color: #111; }
+
 button,
 a {
   -webkit-tap-highlight-color: transparent;
@@ -1000,7 +1015,7 @@ a {
   scrollbar-gutter: stable;
   font-family: 'Trebuchet MS', 'Microsoft YaHei', sans-serif;
   scrollbar-width: thin;
-  scrollbar-color: #0067F5 rgba(255, 255, 255, 0.08);
+  scrollbar-color: #777 rgba(255, 255, 255, 0.08);
 }
 
 .web-project-sidebar__nav ol {
@@ -1013,7 +1028,7 @@ a {
 
 .web-project-sidebar__nav::-webkit-scrollbar { width: 6px; height: 6px; }
 .web-project-sidebar__nav::-webkit-scrollbar-track { border-radius: 999px; background: rgba(255, 255, 255, 0.08); }
-.web-project-sidebar__nav::-webkit-scrollbar-thumb { border-radius: 999px; background: #0067F5; }
+.web-project-sidebar__nav::-webkit-scrollbar-thumb { border-radius: 999px; background: #777; }
 
 .web-project-sidebar__link {
   position: relative;
@@ -1107,6 +1122,8 @@ a {
     display: block;
     width: min(260px, max(200px, calc((100vw - 1280px) / 2 - 24px)));
   }
+
+  .project-frame-scroll { padding-left: 300px; }
 }
 
 @media (max-width: 1023px) {
