@@ -1,5 +1,5 @@
 import { ArrowLeft, ArrowRight, ArrowUpRight, BarChart3, CarFront, MonitorCog, Smartphone, Sparkles, type LucideIcon } from 'lucide-react'
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import { SHOW_HMI_PROJECT } from '../../project-visibility'
 
 type HomeProject = {
@@ -137,6 +137,7 @@ function ProjectCard({ project, active, onActivate }: {
 export function HomeProjectShowcase() {
   const [activeIndex, setActiveIndex] = useState(0)
   const [windowStart, setWindowStart] = useState(0)
+  const touchStart = useRef<{ x: number; y: number } | null>(null)
 
   const activateProject = (index: number) => {
     setActiveIndex(Math.max(0, Math.min(projects.length - 1, index)))
@@ -161,7 +162,25 @@ export function HomeProjectShowcase() {
           })}
         </div>
 
-        <div className="project-gallery__track project-gallery__track--mobile" role="group" aria-label="项目卡片">
+        <div
+          className="project-gallery__track project-gallery__track--mobile"
+          role="group"
+          aria-label="项目卡片，可左右滑动切换"
+          onTouchStart={event => {
+            if (event.touches.length === 1) touchStart.current = { x: event.touches[0].clientX, y: event.touches[0].clientY }
+          }}
+          onTouchEnd={event => {
+            const start = touchStart.current
+            touchStart.current = null
+            if (!start || event.changedTouches.length !== 1) return
+            const dx = event.changedTouches[0].clientX - start.x
+            const dy = event.changedTouches[0].clientY - start.y
+            if (Math.abs(dx) < 45 || Math.abs(dx) <= Math.abs(dy) * 1.3) return
+            if (event.cancelable) event.preventDefault()
+            activateProject(activeIndex + (dx < 0 ? 1 : -1))
+          }}
+          onTouchCancel={() => { touchStart.current = null }}
+        >
           <ProjectCard key={projects[activeIndex].id} project={projects[activeIndex]} active onActivate={() => activateProject(activeIndex)} />
           <ProjectCard key={projects[mobileNeighborIndex].id} project={projects[mobileNeighborIndex]} active={false} onActivate={() => activateProject(mobileNeighborIndex)} />
         </div>

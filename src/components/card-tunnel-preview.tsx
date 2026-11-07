@@ -1,5 +1,5 @@
 import './card-tunnel-preview.css'
-import { useEffect, useState, type CSSProperties } from 'react'
+import { useEffect, useRef, useState, type CSSProperties } from 'react'
 
 const images = Array.from({ length: 48 }, (_, index) =>
   `/projects/card-tunnel/${String(index + 1).padStart(2, '0')}.jpg`,
@@ -34,9 +34,29 @@ const openingAnimations = cards.map(({ index }) => {
 
 export function CardTunnelPreview({ embedded = false, start = true }: { embedded?: boolean; start?: boolean }) {
   const [ready, setReady] = useState(false)
+  const [visible, setVisible] = useState(true)
+  const stageRef = useRef<HTMLElement>(null)
+
+  useEffect(() => {
+    const stage = stageRef.current
+    if (!stage) return
+    let inView = true
+    const update = () => setVisible(inView && !document.hidden)
+    const observer = new IntersectionObserver(([entry]) => {
+      inView = entry.isIntersecting
+      update()
+    })
+    observer.observe(stage)
+    document.addEventListener('visibilitychange', update)
+    return () => {
+      observer.disconnect()
+      document.removeEventListener('visibilitychange', update)
+    }
+  }, [])
 
   useEffect(() => {
     let active = true
+    setReady(false)
     const preload = images.map((src) => {
       const image = new Image()
       image.src = src
@@ -48,10 +68,10 @@ export function CardTunnelPreview({ embedded = false, start = true }: { embedded
     return () => { active = false }
   }, [])
 
-  return <div className={`tunnel-preview${embedded ? ' tunnel-preview--embedded' : ''}${ready && start ? ' is-ready' : ''}`}>
+  return <div className={`tunnel-preview${embedded ? ' tunnel-preview--embedded' : ''}${ready && start && visible ? ' is-ready' : ''}`}>
     <style>{openingAnimations}</style>
     {!embedded && <nav className="tunnel-nav"><a className="tunnel-brand" href="/#home"><span>✦</span> Sandian design</a><div className="tunnel-nav-links"><a href="/#projects">作品</a><a href="/#about">个人简介</a></div><a className="tunnel-contact" href="/#contact">联系方式 ↗</a></nav>}
-    <section className="tunnel-stage" aria-label="作品集动态展示">
+    <section ref={stageRef} className="tunnel-stage" aria-label="作品集动态展示">
       <div className="tunnel-heading tunnel-heading-left">设计有迹<br />创意有形</div><div className="tunnel-heading tunnel-heading-right">保持好奇<br />持续创造</div>
       <div className="tunnel-world" aria-hidden="true">{cards.map(({ image, angle, index }) => {
         const ring = 0.48 + index / (cards.length - 1) * 0.62

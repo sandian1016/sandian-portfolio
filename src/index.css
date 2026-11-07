@@ -937,7 +937,7 @@ a {
   .project-gallery { padding: 36px 20px 44px; }
   .project-gallery__intro { margin-bottom: 28px; }
   .project-gallery__track--desktop { display: none; }
-  .project-gallery__track--mobile { display: flex; width: max-content; height: 420px; gap: 12px; }
+  .project-gallery__track--mobile { display: flex; width: max-content; height: 420px; gap: 12px; touch-action: pan-y; }
   .project-gallery__track--mobile .project-gallery__item { flex: 0 0 100px; width: 100px; border-radius: 18px; }
   .project-gallery__track--mobile .project-gallery__item.is-active { flex-basis: 74vw; width: 74vw; max-width: 340px; }
   .project-gallery-card--active { display: flex; flex-direction: column; padding: 10px; }

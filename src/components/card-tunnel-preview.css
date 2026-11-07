@@ -19,4 +19,9 @@
 @keyframes edge-blur-visibility{0%,38%{opacity:1}53%,100%{opacity:0}}
 .tunnel-preview:not(.is-ready) .tunnel-heading,.tunnel-preview:not(.is-ready) .tunnel-world,.tunnel-preview:not(.is-ready) .tunnel-card,.tunnel-preview:not(.is-ready) .tunnel-edge-blur,.tunnel-preview:not(.is-ready) .tunnel-caption,.tunnel-preview:not(.is-ready) .tunnel-final{animation-play-state:paused}
 @media(max-width:700px){.tunnel-stage{min-height:500px}.tunnel-nav{top:18px;height:50px}.tunnel-nav-links{display:none}.tunnel-contact{margin-left:auto}.tunnel-heading{top:25%;font-size:clamp(38px,9vw,68px)}.tunnel-heading-left{left:5%}.tunnel-heading-right{right:5%}.tunnel-card{width:22vw}.tunnel-final{top:25%;right:5%;text-align:right}.tunnel-final h1{font-size:44px}.tunnel-final p{font-size:12px}.tunnel-caption{left:34%;bottom:18%;font-size:11px}}
+@media(max-width:700px){
+  .tunnel-edge-blur{backdrop-filter:none;-webkit-backdrop-filter:none;mask-image:none;-webkit-mask-image:none}
+  .tunnel-edge-blur-top{background:linear-gradient(to bottom,rgba(0,0,0,.7),transparent)}
+  .tunnel-edge-blur-bottom{background:linear-gradient(to top,rgba(0,0,0,.7),transparent)}
+}
 @media(prefers-reduced-motion:reduce){.tunnel-heading,.tunnel-world,.tunnel-card,.tunnel-caption,.tunnel-final{animation-play-state:paused}.tunnel-card{transform:translate(-50%,-50%) translate(var(--x),var(--y)) rotate(var(--rotation));opacity:1}.tunnel-heading,.tunnel-caption{opacity:1}.tunnel-final,.tunnel-edge-blur{display:none}}
