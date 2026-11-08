@@ -3,6 +3,7 @@ type Experience = {
   position: string
   periodStart: string
   periodEnd: string
+  projects: string[]
   responsibilities: string[]
 }
 
@@ -18,8 +19,9 @@ const experiences: Experience[] = [
     position: 'UI 交互设计师',
     periodStart: '2021.04',
     periodEnd: '2023.06',
+    projects: ['觅潮', '原创潮玩 IP'],
     responsibilities: [
-      '负责国内潮玩移动端产品“酷潮 APP”的 UI 与交互设计，围绕潮玩内容发现、商品交易、盲盒体验、会员成长和社区互动等核心场景，持续完善产品体验。',
+      '参与觅潮移动端产品的 UI 与交互设计，围绕内容浏览、商品交易与盲盒等场景完善产品体验。',
       '参与用户需求分析、产品流程梳理与信息架构设计，优化从内容浏览、商品选择到下单购买的关键路径，将复杂业务规则转化为清晰、易理解的移动端操作流程。',
       '负责核心页面、高保真原型及视觉方案输出，并结合品牌定位探索年轻化、潮流化的视觉语言与情感化 IP 表达。',
       '与产品经理和研发团队协同推进方案落地，持续跟进开发还原、体验验收与版本迭代，保障设计质量和不同业务场景下的体验一致性。',
@@ -30,6 +32,7 @@ const experiences: Experience[] = [
     position: '产品设计师',
     periodStart: '2023.09',
     periodEnd: '2026.08',
+    projects: ['智慧工地', '工业物联网平台', '全管 OA 平台', '研究院数字孪生管控系统', '智慧消防平台'],
     responsibilities: ['用户需求分析、信息架构梳理与高保真原型输出', '参与需求评审，协同产品、视觉与开发推动设计落地', '开展用户研究与可用性测试，持续迭代复杂业务体验', '沉淀交互规范、组件库与设计指南，保障多端体验一致性'],
   },
 ]
@@ -94,6 +97,7 @@ export function AboutSection({ previewMode = false }: { previewMode?: boolean })
 
                 <article className="min-w-0">
                   <h4 className="font-yahei text-[18px] font-bold leading-7 text-[#17283e] sm:text-[20px]">{experience.company}</h4>
+                  <p className="mt-2 text-sm leading-6 text-[#566a80]">参与项目：{experience.projects.join('、')}</p>
                   <ul className="mt-3 grid max-w-[960px] gap-x-10 gap-y-2 sm:grid-cols-2" aria-label={`${experience.company}职责`}>
                     {experience.responsibilities.map((responsibility) => (
                       <li key={responsibility} className="relative pl-4 text-sm leading-6 text-[#566a80] before:absolute before:left-0 before:top-[0.68rem] before:h-1 before:w-1 before:rounded-full before:bg-[#0055ff]">

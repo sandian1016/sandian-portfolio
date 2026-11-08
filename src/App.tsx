@@ -6,9 +6,9 @@ import {
 import Lenis from 'lenis'
 import 'lenis/dist/lenis.css'
 import { ChevronDown, Menu, X } from 'lucide-react'
-import { type ReactNode, useEffect, useRef, useState } from 'react'
+import { lazy, Suspense, type ReactNode, useEffect, useRef, useState } from 'react'
 import Galaxy from './components/Galaxy'
-import { CardTunnelPreview } from './components/card-tunnel-preview'
+import { HeroCarousel } from './components/ui/hero-carousel'
 import { AigcProjectPage } from './components/ui/aigc-project-page'
 import { AboutSection } from './components/ui/about-section'
 import { BrandLogo } from './components/ui/brand-logo'
@@ -32,6 +32,8 @@ import {
 import { WebProjectPage } from './components/ui/web-project-page'
 import { VisualizationProjectPage } from './components/ui/visualization-project-page'
 import { SHOW_HMI_PROJECT } from './project-visibility'
+
+const CardTunnelPreview = lazy(() => import('./components/card-tunnel-preview').then(module => ({ default: module.CardTunnelPreview })))
 
 const PROJECT_ENTRY_EASE = [0.22, 1, 0.36, 1] as const
 const OPENING_SEQUENCE_SESSION_KEY = 'sandian-opening-sequence-seen'
@@ -241,9 +243,12 @@ function Navigation({ standalone = false, lightGlass: preferLightGlass = false }
       frameId = window.requestAnimationFrame(() => {
         setScrolled(window.scrollY > 48)
         if (preferLightGlass) {
-          const section = document.getElementById('contact')
-          const bounds = section?.getBoundingClientRect()
-          const overDark = Boolean(bounds && bounds.top <= 92 && bounds.bottom > 20)
+          const overDark = ['about', 'projects', 'contact'].some(id => {
+            const section = document.getElementById(id)
+            if (!section) return false
+            const bounds = section.getBoundingClientRect()
+            return bounds.top <= 92 && bounds.bottom > 20
+          })
           setOverDarkSection(current => current === overDark ? current : overDark)
         }
       })
@@ -515,7 +520,15 @@ function App() {
     projectPreviewParam === '2' ? 'stage' : projectPreviewParam === '3' ? 'archive' : 'atlas'
   const isStandalonePage = cardTunnelPreviewMode || aboutPreviewMode || projectExperienceMode || projectPreviewMode || webProjectMode || stateGridPortalProjectMode || c5OaProjectMode || mobileProjectMode || smartSiteProjectMode || visualizationProjectMode || fireVisualizationProjectMode || hmiCockpitProjectMode || aigcProjectMode || budingProjectMode || mliProjectMode
   const [introVisible, setIntroVisible] = useState(() => !isStandalonePage && !hasSeenOpeningSequence())
+  const [mobileHero, setMobileHero] = useState(() => window.matchMedia('(max-width: 767px)').matches)
   const lenisRef = useRef<Lenis | null>(null)
+
+  useEffect(() => {
+    const media = window.matchMedia('(max-width: 767px)')
+    const update = () => setMobileHero(media.matches)
+    media.addEventListener('change', update)
+    return () => media.removeEventListener('change', update)
+  }, [])
 
   useEffect(() => {
     if (isStandalonePage) return
@@ -709,7 +722,7 @@ function App() {
     )
   }
 
-  if (cardTunnelPreviewMode) return <CardTunnelPreview />
+  if (cardTunnelPreviewMode) return <Suspense fallback={null}><CardTunnelPreview /></Suspense>
 
   if (budingProjectMode) {
     return (
@@ -748,13 +761,13 @@ function App() {
   return (
     <main className="home-dark-theme min-h-screen bg-[#050505] font-sans text-white">
       <OpeningSequence visible={introVisible} />
-      <Navigation />
+      <Navigation lightGlass={mobileHero} />
 
       <section
         id="home"
-        className="relative overflow-hidden bg-black text-white"
+        className={mobileHero ? 'relative h-[clamp(600px,100svh,720px)] overflow-hidden bg-[#f4f8ff] text-[#0b1f33]' : 'relative overflow-hidden bg-black text-white'}
       >
-        <CardTunnelPreview embedded start={!introVisible} />
+        {mobileHero ? <HeroCarousel introVisible={introVisible} /> : <Suspense fallback={<div className="h-svh bg-black" />}><CardTunnelPreview embedded start={!introVisible} /></Suspense>}
       </section>
 
       <AboutSection />
