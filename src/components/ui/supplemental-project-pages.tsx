@@ -38,7 +38,7 @@ function createFrames({
   }))
 }
 
-const budingFrames: ProjectFrame[] = [
+export const budingFrames: ProjectFrame[] = [
   ['品牌介绍', 3053], ['IP 形象与品牌色', 2743], ['标志与设计过程', 3293],
   ['品牌关键词', 2980], ['治愈与陪伴', 2733], ['品牌理念', 2045],
   ['悦己奖励', 2434], ['温暖陪伴', 2344], ['快乐分享', 2034], ['品牌延展', 2551],
@@ -62,7 +62,7 @@ const budingFrames: ProjectFrame[] = [
   height: Number(height),
 }))
 
-const c5OaFrames: ProjectFrame[] = [
+export const c5OaFrames: ProjectFrame[] = [
   ['项目封面', 1], ['划分核心场景', 2], ['用户场景洞察', 3], ['分析关键阶段', 4], ['确定设计内容', 5],
   ['操作区域优化', 6], ['导航轻量化', 7], ['高效工作台', 9], ['待办信息展示', 10],
   ['表格信息优化', 11], ['信息分层', 12], ['栅格布局', 13], ['表单优化', 14],
@@ -76,7 +76,7 @@ const c5OaFrames: ProjectFrame[] = [
   height: number === 16 ? 1485 : number === 17 ? 713 : 720,
 }))
 
-const mliFrames: ProjectFrame[] = [
+export const mliFrames: ProjectFrame[] = [
   ['项目封面', 1280, 2267], ['角色介绍', 1280, 2935], ['角色介绍续', 1280, 2935],
   ['角色背面', 1280, 412], ['品牌故事', 1280, 2267], ['视觉规范', 1280, 2267],
   ['动态表情', 2678, 1506], ['表情延展', 2678, 633], ['互动展示', 1280, 3561],
@@ -90,7 +90,7 @@ const mliFrames: ProjectFrame[] = [
   height: Number(height),
 }))
 
-const smartSiteFrames = createFrames({
+export const smartSiteFrames = createFrames({
   idPrefix: 'smart-site-frame',
   assetPath: '/projects/smart-site-updated',
   assetPrefix: 'smart-site-frame',
@@ -114,7 +114,7 @@ const smartSiteFrames = createFrames({
   ],
 })
 
-const stateGridFrames = createFrames({
+export const stateGridFrames = createFrames({
   idPrefix: 'state-grid-frame',
   assetPath: '/projects/web-state-grid',
   assetPrefix: 'state-grid-frame',
@@ -138,7 +138,7 @@ const stateGridFrames = createFrames({
   ],
 })
 
-const fireVisualizationFrames = createFrames({
+export const fireVisualizationFrames = createFrames({
   idPrefix: 'fire-frame',
   assetPath: '/projects/visualization-fire',
   assetPrefix: 'fire-frame',

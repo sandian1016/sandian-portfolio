@@ -1,0 +1,42 @@
+.contact-screen { position:fixed; inset:0; z-index:200; overflow:hidden; display:grid; place-items:center; background:#0c101b; color:#fff; font-family:Inter,system-ui,sans-serif; }
+.contact-screen__ambient { position:absolute; inset:0; background:radial-gradient(ellipse 65% 68% at 50% 0%,#86d5ff 0%,#267be3 28%,#173b85 58%,transparent 100%), radial-gradient(ellipse at 50% 100%,#102a53,transparent 60%); pointer-events:none; }
+.contact-screen__ambient:after { content:''; position:absolute; inset:0; opacity:.1; background-image:radial-gradient(#fff 0.8px,transparent 0.8px); background-size:8px 8px; mask-image:linear-gradient(#000,transparent 75%); }
+.contact-screen__close { position:absolute; z-index:3; top:26px; right:34px; width:42px; height:42px; display:grid; place-items:center; border:1px solid #ffffff45; border-radius:50%; background:#13192bcc; color:#fff; cursor:pointer; }
+.contact-screen__close:focus-visible, .contact-screen a:focus-visible, .contact-badge:focus-visible { outline:3px solid #b9d8ff; outline-offset:4px; }
+.contact-lanyard { position:absolute; top:0; left:50%; margin-left:-160px; width:320px; height:100%; display:flex; flex-direction:column; align-items:center; }
+.contact-lanyard__strap { height:clamp(115px, 22vh, 220px); width:48px; background:linear-gradient(90deg,#111621,#303642 48%,#111621); border-inline:1px solid #ffffff38; box-shadow:0 6px 18px #0006; display:flex; justify-content:center; overflow:hidden; }
+.contact-lanyard__strap span { writing-mode:vertical-rl; font-size:7px; letter-spacing:.16em; color:#e1e5f3; padding-top:16px; }
+.contact-lanyard__clip { position:relative; z-index:2; margin-top:-4px; width:47px; height:24px; border:2px solid #aab1b9; border-radius:5px; background:linear-gradient(#737d85,#373f49); box-shadow:0 5px 10px #0006; }
+.contact-lanyard__clip:after { content:''; position:absolute; left:13px; top:19px; width:18px; height:30px; border:3px solid #b8c0c7; border-radius:50%; box-shadow:0 2px 3px #0007; }
+.contact-badge-wrap { position:relative; margin-top:14px; width:300px; height:420px; perspective:1100px; cursor:grab; touch-action:none; }
+.contact-badge-wrap:active { cursor:grabbing; }
+.contact-badge { width:100%; height:100%; padding:0; border:0; border-radius:7px; background:transparent; color:#172233; text-align:center; cursor:pointer; transform-style:preserve-3d; transition:transform .65s cubic-bezier(.2,.7,.2,1); }
+.contact-badge.is-flipped { transform:rotateY(180deg); }
+.contact-badge__face { position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; border:1px solid #fff9; border-radius:7px; background:linear-gradient(150deg,#fff,#eef1f9); box-shadow:0 22px 55px #070a1699, inset 0 0 0 5px #fff8; backface-visibility:hidden; overflow:hidden; }
+.contact-badge__back { transform:rotateY(180deg); align-items:stretch; text-align:left; padding:0 32px; }
+.contact-badge__slot { position:absolute; top:13px; left:50%; transform:translateX(-50%); width:66px; height:9px; border-radius:8px; background:#285ca0; box-shadow:inset 0 1px 3px #0007; }
+.contact-badge__brand { align-self:flex-start; text-align:left; margin:34px 0 0 25px; font-size:9px; font-weight:700; letter-spacing:.08em; }
+.contact-badge__brand small { display:block; margin-top:3px; font-size:6px; font-weight:400; letter-spacing:.15em; color:#8291a5; }
+.contact-badge__back .contact-badge__brand { margin-left:0; }
+.contact-badge__portrait { margin-top:18px; width:91px; height:112px; object-fit:cover; object-position:top center; border-radius:7px; background:#e3ebf4; }
+.contact-badge__name { margin-top:10px; font-size:27px; letter-spacing:.1em; line-height:1.1; }
+.contact-badge__en { font-size:7px; letter-spacing:.22em; color:#8090a5; margin-top:4px; }
+.contact-badge__role { margin-top:8px; font-size:13px; font-weight:600; }
+.contact-badge__specialty { margin-top:5px; color:#748297; font-size:9px; }
+.contact-badge__line { width:82%; height:1px; background:#d9e0e9; margin-top:16px; }
+.contact-badge__location { margin-top:12px; font-size:8px; letter-spacing:.14em; color:#728195; }
+.contact-badge__barcode { margin-top:9px; width:73%; height:20px; background:repeating-linear-gradient(90deg,#1b2639 0 5px,transparent 5px 8px,#1b2639 8px 10px,transparent 10px 15px); }
+.contact-badge__hint { position:absolute; bottom:12px; left:50%; transform:translateX(-50%); display:flex; align-items:center; gap:5px; color:#8090a5; font-size:9px; white-space:nowrap; }
+.contact-badge__back-title { margin-top:37px; font-size:26px; font-weight:700; line-height:1.25; }
+.contact-badge__back-sub { margin-top:9px; font-size:8px; letter-spacing:.15em; color:#8693a3; }
+.contact-badge__details { display:grid; gap:16px; margin-top:32px; font-size:13px; font-weight:600; }
+.contact-badge__details span { display:grid; gap:4px; }
+.contact-badge__details small { color:#8a97a7; font-size:8px; letter-spacing:.13em; font-weight:400; }
+.contact-screen__bottom { position:absolute; bottom:30px; left:0; right:0; text-align:center; }
+.contact-screen__bottom p { margin:0 0 16px; font-size:11px; color:#ffffffa8; }
+.contact-screen__bottom div { display:flex; justify-content:center; flex-wrap:wrap; gap:12px 24px; }
+.contact-screen__bottom a { display:inline-flex; gap:7px; align-items:center; color:#fff; text-decoration:none; font-size:13px; }
+.contact-screen__bottom a:hover { color:#c6dfff; }
+@media(max-height:720px) { .contact-lanyard__strap { height:90px; } .contact-badge-wrap { transform:scale(.8); transform-origin:top center; } .contact-screen__bottom { bottom:18px; } }
+@media(max-width:500px) { .contact-screen__close { top:18px; right:18px; } .contact-badge-wrap { width:270px; height:395px; } .contact-screen__bottom { bottom:25px; } }
+@media(prefers-reduced-motion:reduce) { .contact-badge { transition:none; } }

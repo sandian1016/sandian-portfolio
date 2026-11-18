@@ -207,18 +207,8 @@ body {
     linear-gradient(to bottom, rgba(5, 5, 5, 0), rgba(5, 5, 5, 0.38) 62%, #050505 100%);
 }
 
-.home-about-transition {
-  background: #f8fbff;
-}
+.home-about-transition { background: #fff; }
 
-.home-dark-theme #about { background: #050505; }
-.home-dark-theme #about [class~="text-[#17283e]"] { color: #f1f3f7; }
-.home-dark-theme #about [class~="text-[#566a80]"],
-.home-dark-theme #about [class~="text-[#63768c]"],
-.home-dark-theme #about [class~="text-[#71849a]"],
-.home-dark-theme #about [class~="text-[#7b8da0]"] { color: #a8b0bd; }
-.home-dark-theme #about [class~="bg-[#f8fbff]"] { background-color: #050505; }
-.home-dark-theme #about [class~="bg-[#d2deed]"] { background-color: #354052; }
 .home-dark-theme .project-gallery { background: #050505; color: #f1f3f7; }
 .home-dark-theme .project-gallery__eyebrow { color: #a8b0bd; }
 .home-dark-theme .project-gallery__progress { background: #343943; }

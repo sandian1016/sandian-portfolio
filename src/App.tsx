@@ -14,7 +14,7 @@ import { AboutSection } from './components/ui/about-section'
 import { BrandLogo } from './components/ui/brand-logo'
 import { Footer } from './components/ui/footer-section'
 import { HmiCockpitProjectPage } from './components/ui/hmi-cockpit-project-page'
-import { HomeProjectShowcase } from './components/ui/home-project-showcase'
+import { HomeWheel } from './components/ui/home-wheel'
 import { MobileProjectPage } from './components/ui/mobile-project-page'
 import { ProjectExperiencePage } from './components/ui/project-experience-page'
 import {
@@ -85,7 +85,6 @@ const navItems: NavigationItem[] = [
       { label: 'AIGC 设计', href: '/?page=aigc-project' },
     ],
   },
-  { label: '个人简介', href: '#about' },
   { label: '联系方式', href: '#contact' },
 ]
 
@@ -228,8 +227,8 @@ function Navigation({ standalone = false, lightGlass: preferLightGlass = false }
   const contactItem = navItems[navItems.length - 1]
   const resolveHref = (href: string) => (standalone && href.startsWith('#') ? `/${href}` : href)
   const mobileLinkClass = lightGlass
-    ? 'text-[#173149]/76 hover:bg-[#eaf6fc] hover:text-[#0b1f33]'
-    : 'text-white/80 hover:bg-white/10 hover:text-white'
+    ? 'text-[#173149] hover:bg-[#eaf6fc] hover:text-[#0b1f33]'
+    : 'text-white/90 hover:bg-white/10 hover:text-white'
   const closeMobileMenu = () => {
     setMenuOpen(false)
     setMobileCategoryOpen(null)
@@ -243,7 +242,7 @@ function Navigation({ standalone = false, lightGlass: preferLightGlass = false }
       frameId = window.requestAnimationFrame(() => {
         setScrolled(window.scrollY > 48)
         if (preferLightGlass) {
-          const overDark = ['about', 'projects', 'contact'].some(id => {
+          const overDark = ['projects', 'footer'].some(id => {
             const section = document.getElementById(id)
             if (!section) return false
             const bounds = section.getBoundingClientRect()
@@ -274,8 +273,8 @@ function Navigation({ standalone = false, lightGlass: preferLightGlass = false }
         <div
           className={`flex h-[72px] items-center justify-between rounded-[22px] border px-4 backdrop-blur-[28px] backdrop-saturate-[175%] sm:px-6 ${
             lightGlass
-              ? 'border-white/70 bg-white/42 shadow-[inset_0_1px_0_rgba(255,255,255,0.82),0_18px_54px_rgba(45,86,118,0.16)]'
-              : 'border-white/[0.16] bg-[#17151f]/80 shadow-[inset_0_1px_0_rgba(255,255,255,0.10),0_18px_60px_rgba(0,0,0,0.24)]'
+              ? 'border-[#d9dce4] bg-white/95 shadow-[inset_0_1px_0_rgba(255,255,255,0.82),0_10px_32px_rgba(45,86,118,0.08)]'
+              : 'border-white/[0.18] bg-[#17151f]/95 shadow-[inset_0_1px_0_rgba(255,255,255,0.10),0_18px_60px_rgba(0,0,0,0.24)]'
           }`}
         >
           <Brand homeHref={resolveHref('#home')} light={lightGlass} />
@@ -284,8 +283,8 @@ function Navigation({ standalone = false, lightGlass: preferLightGlass = false }
             {standardNavItems.map((item) => {
               const itemClass = `whitespace-nowrap rounded-xl px-3 py-3 text-sm font-medium transition-all duration-300 ${
                 lightGlass
-                  ? 'text-[#173149]/65 hover:bg-white/45 hover:text-[#102235]'
-                  : 'text-white/55 hover:bg-white/[0.06] hover:text-white'
+                  ? 'text-[#173149] hover:bg-[#edf2f7] hover:text-[#102235]'
+                  : 'text-white/90 hover:bg-white/[0.10] hover:text-white'
               }`
 
               if (!item.children) {
@@ -349,7 +348,7 @@ function Navigation({ standalone = false, lightGlass: preferLightGlass = false }
                             role="menuitem"
                             className={`block min-h-11 rounded-xl px-3.5 py-3 text-sm font-medium transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-2px] ${
                               lightGlass
-                                ? 'text-[#173149]/74 hover:bg-[#edf6fb] hover:text-[#102235] focus-visible:outline-[#0055ff]'
+                                ? 'text-[#173149] hover:bg-[#edf6fb] hover:text-[#102235] focus-visible:outline-[#0055ff]'
                                 : 'text-white/70 hover:bg-white/[0.08] hover:text-white focus-visible:outline-white'
                             }`}
                           >
@@ -399,7 +398,7 @@ function Navigation({ standalone = false, lightGlass: preferLightGlass = false }
             transition={{ duration: 0.22 }}
             className={`absolute left-5 right-5 top-[6.25rem] max-h-[calc(100vh-7.5rem)] overflow-y-auto rounded-[22px] p-3 backdrop-blur-2xl sm:left-8 sm:right-8 xl:hidden ${
               lightGlass
-                ? 'border border-white/70 bg-white/92 shadow-[0_20px_60px_rgba(39,94,126,0.18)]'
+                ? 'border border-[#d9dce4] bg-white/95 shadow-[0_20px_60px_rgba(39,94,126,0.18)]'
                 : 'border border-white/20 bg-[#17151f]/95 shadow-2xl'
             }`}
             aria-label="Mobile navigation"
@@ -760,18 +759,8 @@ function App() {
 
   return (
     <main className="home-dark-theme min-h-screen bg-[#050505] font-sans text-white">
-      <OpeningSequence visible={introVisible} />
-      <Navigation lightGlass={mobileHero} />
-
-      <section
-        id="home"
-        className={mobileHero ? 'relative h-[clamp(600px,100svh,720px)] overflow-hidden bg-[#f4f8ff] text-[#0b1f33]' : 'relative overflow-hidden bg-black text-white'}
-      >
-        {mobileHero ? <HeroCarousel introVisible={introVisible} /> : <Suspense fallback={<div className="h-svh bg-black" />}><CardTunnelPreview embedded start={!introVisible} /></Suspense>}
-      </section>
-
-      <AboutSection />
-      <HomeProjectShowcase />
+      <Navigation lightGlass />
+      <HomeWheel />
       <Footer />
     </main>
   )

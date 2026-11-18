@@ -13,7 +13,7 @@ type WebProjectFrame = {
   height: number
 }
 
-const webProjectFrames: WebProjectFrame[] = [
+export const webProjectFrames: WebProjectFrame[] = [
   {
     id: 'web-project-cover',
     label: '项目封面',

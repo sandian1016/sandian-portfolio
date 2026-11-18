@@ -7,12 +7,6 @@ type Experience = {
   responsibilities: string[]
 }
 
-const profile = [
-  { label: '姓名', value: '邓威' },
-  { label: '经验', value: '6 年' },
-  { label: '微信', value: 'Sandian1016' },
-]
-
 const experiences: Experience[] = [
   {
     company: '深圳领星网络科技',
@@ -50,7 +44,7 @@ export function AboutSection({ previewMode = false }: { previewMode?: boolean })
   return (
     <section
       id="about"
-      className={`relative isolate scroll-mt-24 overflow-hidden bg-[#f8fbff] px-4 pb-5 pt-7 sm:px-6 sm:pb-6 sm:pt-8 md:px-8 lg:px-10 lg:pt-9 xl:px-12 2xl:px-16 ${
+      className={`relative isolate scroll-mt-24 overflow-hidden bg-white px-4 pb-5 pt-7 sm:px-6 sm:pb-6 sm:pt-8 md:px-8 lg:px-10 lg:pt-9 xl:px-12 2xl:px-16 ${
         previewMode ? '' : 'home-about-transition'
       }`}
     >
@@ -61,18 +55,6 @@ export function AboutSection({ previewMode = false }: { previewMode?: boolean })
             从业务理解到体验落地，让复杂系统更清晰。
           </h2>
         </header>}
-
-        <div className="mt-8 sm:mt-9">
-          <SectionHeading title="基本信息" english="Basic Information" />
-          <dl className="mt-5 grid gap-x-12 gap-y-4 sm:grid-cols-3 lg:max-w-[840px]">
-            {profile.map((item) => (
-              <div key={item.label} className="flex items-baseline gap-3">
-                <dt className="shrink-0 text-sm text-[#63768c]">{item.label}</dt>
-                <dd className="min-w-0 text-[20px] font-semibold tracking-[-0.02em] text-[#17283e] sm:text-[22px]">{item.value}</dd>
-              </div>
-            ))}
-          </dl>
-        </div>
 
         <div className="mt-9 sm:mt-10">
           <SectionHeading title="工作经历" english="Work Experience" />

@@ -13,7 +13,7 @@ type MobileProjectFrame = {
   height: number
 }
 
-const mobileProjectFrames: MobileProjectFrame[] = [
+export const mobileProjectFrames: MobileProjectFrame[] = [
   ['mobile-project-cover', '项目封面', 720],
   ['mobile-interface-showcase', '界面展示', 720],
   ['mobile-project-background', '项目背景', 720],

@@ -21,8 +21,7 @@ const footerSections: FooterSection[] = [
     label: '页面导航',
     links: [
       { title: '主页', href: '#home' },
-      { title: '项目分类', href: '#projects' },
-      { title: '个人简介', href: '#about' },
+      { title: '项目分类', href: '#home' },
       { title: '联系方式', href: '#contact' },
     ],
   },
@@ -30,7 +29,7 @@ const footerSections: FooterSection[] = [
     label: '设计方向',
     links: projectCategories.map((category) => ({
       title: category.label,
-      href: category.href ?? '#projects',
+      href: category.href ?? '#home',
     })),
   },
 ]
@@ -43,7 +42,7 @@ export function Footer({ standalone = false }: { standalone?: boolean }) {
     standalone && href.startsWith('#') ? `/${href}` : href
 
   return (
-    <footer id="contact" ref={footerRef} className="portfolio-footer">
+    <footer id="footer" ref={footerRef} className="portfolio-footer">
       <section className="portfolio-footer-cta">
         <div className="portfolio-footer-cta__background" aria-hidden="true" />
         <div className={`portfolio-footer-light ${isInView || reduceMotion ? 'is-active' : ''}`} aria-hidden="true">
@@ -53,7 +52,7 @@ export function Footer({ standalone = false }: { standalone?: boolean }) {
           <div className="portfolio-footer-cta__copy">
             <p>一起把复杂问题，</p>
             <p>设计得 <span>更简单</span>。</p>
-            <a href={resolveHref('#projects')} className="portfolio-footer-trial">查看作品 <ArrowRight aria-hidden="true" /></a>
+            <a href={resolveHref('#home')} className="portfolio-footer-trial">查看作品 <ArrowRight aria-hidden="true" /></a>
           </div>
 
           <div className="portfolio-footer-services" aria-label="设计方向">

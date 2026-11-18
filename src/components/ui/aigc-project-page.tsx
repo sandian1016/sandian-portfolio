@@ -14,7 +14,7 @@ type AigcProjectFrame = {
   chapterId?: string
 }
 
-const featuredFrames: AigcProjectFrame[] = [
+export const featuredFrames: AigcProjectFrame[] = [
   {
     id: 'aigc-visual-collection',
     label: '主视觉展示合集',

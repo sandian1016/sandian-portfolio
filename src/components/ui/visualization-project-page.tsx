@@ -13,7 +13,7 @@ type VisualizationProjectFrame = {
   height: number
 }
 
-const visualizationProjectFrames: VisualizationProjectFrame[] = [
+export const visualizationProjectFrames: VisualizationProjectFrame[] = [
   ['digital-twin-cover', '项目封面', 1280, 720],
   ['digital-twin-concept', '设计理念', 1280, 1119],
   ['digital-twin-components', '设计组件', 1920, 1990],
